@@ -1,0 +1,1070 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PARA Evolution Twin Bot</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'para-purple': {
+                            50: '#f5f3ff',
+                            100: '#ede9fe',
+                            200: '#ddd6fe',
+                            300: '#c4b5fd',
+                            400: '#a78bfa',
+                            500: '#8b5cf6',
+                            600: '#7c3aed',
+                            700: '#6d28d9',
+                            800: '#5b21b6',
+                            900: '#4c1d95',
+                            950: '#2e1065',
+                        }
+                    },
+                    fontFamily: {
+                        'sans': ['Inter', 'sans-serif'],
+                    },
+                    animation: {
+                        'bounce-slow': 'bounce 1.5s infinite',
+                        'fade-in': 'fadeIn 0.3s ease forwards',
+                    },
+                    keyframes: {
+                        fadeIn: {
+                            '0%': { opacity: '0', transform: 'translateY(10px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' }
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @keyframes bounce {
+            0%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-10px); }
+        }
+        
+        /* Custom scrollbar */
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+        
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #c4b5fd;
+            border-radius: 10px;
+        }
+        
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #a78bfa;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 font-sans">
+    <div class="flex justify-center items-center min-h-screen p-4">
+        <div class="max-w-md w-full h-[600px] bg-white rounded-2xl shadow-xl flex flex-col overflow-hidden border border-gray-200">
+            <!-- Header -->
+            <div class="bg-gradient-to-r from-para-purple-800 to-para-purple-700 py-4 px-5 shadow-md">
+                <h1 class="text-white text-xl font-semibold text-center">PARA Evolution Twin</h1>
+            </div>
+            
+            <!-- API Status -->
+            <div class="bg-para-purple-50 px-4 py-2">
+                <div id="apiStatus" class="text-xs px-3 py-1 rounded-full inline-flex items-center bg-green-100 text-green-800">
+                    <span class="w-2 h-2 bg-green-500 rounded-full mr-2"></span>
+                    API Connected
+                </div>
+            </div>
+            
+            <!-- Chat Container -->
+            <div id="chatContainer" class="flex-1 overflow-y-auto p-4 bg-gray-50 custom-scrollbar">
+                <div class="flex items-start mb-4">
+                    <div class="flex items-center justify-center w-10 h-10 rounded-full bg-para-purple-600 text-white shadow-md mr-3 flex-shrink-0">
+                        🤖
+                    </div>
+                    <div class="bg-white rounded-2xl rounded-tl-none px-4 py-3 shadow-sm max-w-[85%] animate-fade-in">
+                        <p class="text-gray-700">Hi there! I'm your PARA Evolution Twin, powered by AI. I'm here to help you grow physically, mentally, emotionally and spiritually. How are you feeling today?</p>
+                    </div>
+                </div>
+                
+                <!-- Bot Emotions -->
+                <div class="flex justify-around mt-2 mb-4 px-6">
+                    <div class="bot-emotion cursor-pointer transition-transform hover:scale-110" onclick="changeEmotion('😊')">
+                        <div class="text-xs bg-gray-800 text-white px-2 py-1 rounded absolute -top-8 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap">Happy</div>
+                        <div class="text-lg">😊</div>
+                    </div>
+                    <div class="bot-emotion active cursor-pointer transition-transform hover:scale-110" onclick="changeEmotion('🤖')">
+                        <div class="text-xs bg-gray-800 text-white px-2 py-1 rounded absolute -top-8 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap">Neutral</div>
+                        <div class="text-lg">🤖</div>
+                    </div>
+                    <div class="bot-emotion cursor-pointer transition-transform hover:scale-110" onclick="changeEmotion('🤓')">
+                        <div class="text-xs bg-gray-800 text-white px-2 py-1 rounded absolute -top-8 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap">Smart</div>
+                        <div class="text-lg">🤓</div>
+                    </div>
+                    <div class="bot-emotion cursor-pointer transition-transform hover:scale-110" onclick="changeEmotion('😴')">
+                        <div class="text-xs bg-gray-800 text-white px-2 py-1 rounded absolute -top-8 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap">Sleepy</div>
+                        <div class="text-lg">😴</div>
+                    </div>
+                    <div class="bot-emotion cursor-pointer transition-transform hover:scale-110" onclick="changeEmotion('💪')">
+                        <div class="text-xs bg-gray-800 text-white px-2 py-1 rounded absolute -top-8 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap">Strong</div>
+                        <div class="text-lg">💪</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Feature Buttons -->
+            <div class="grid grid-cols-3 gap-2 px-4 py-3 bg-white border-t border-gray-100">
+                <button class="feature-button bg-para-purple-50 hover:bg-para-purple-100 text-para-purple-700 px-3 py-2 rounded-xl text-sm font-medium transition-colors flex items-center justify-center">
+                    <span class="mr-2">🧘</span> Meditation
+                </button>
+                <button class="feature-button bg-para-purple-50 hover:bg-para-purple-100 text-para-purple-700 px-3 py-2 rounded-xl text-sm font-medium transition-colors flex items-center justify-center">
+                    <span class="mr-2">💪</span> Workout
+                </button>
+                <button class="feature-button bg-para-purple-50 hover:bg-para-purple-100 text-para-purple-700 px-3 py-2 rounded-xl text-sm font-medium transition-colors flex items-center justify-center">
+                    <span class="mr-2">🎵</span> Focus Music
+                </button>
+            </div>
+            
+            <!-- Input Container -->
+            <div class="flex items-center bg-white px-4 py-3 border-t border-gray-200">
+                <input type="text" id="messageInput" class="flex-1 px-4 py-2 bg-gray-100 rounded-full text-gray-800 focus:outline-none focus:ring-2 focus:ring-para-purple-400 border-none" placeholder="Ask me anything..." onkeydown="if(event.key==='Enter') sendMessage()">
+                <button onclick="sendMessage()" class="w-10 h-10 bg-para-purple-600 hover:bg-para-purple-700 text-white rounded-full ml-2 flex items-center justify-center transition-colors shadow-md">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const chatContainer = document.getElementById('chatContainer');
+        const messageInput = document.getElementById('messageInput');
+        let currentEmotion = '🤖';
+        const apiKeyElement = document.getElementById('apiStatus');
+        
+        // Set your API key from user input
+        const API_KEY = "AIzaSyCe9-G28yi-09O05K2MZyAFXoZOAma-s8U";
+        let isApiConnected = true;
+
+        // Function to test API connection
+        async function testApiConnection() {
+            try {
+                const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${API_KEY}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        contents: [
+                            {
+                                parts: [
+                                    {
+                                        text: "Hello, this is a test message to verify API connectivity."
+                                    }
+                                ]
+                            }
+                        ]
+                    })
+                });
+                
+                const data = await response.json();
+                console.log("API test response:", data);
+                
+                if (data.candidates && data.candidates.length > 0) {
+                    apiKeyElement.innerHTML = '<span class="w-2 h-2 bg-green-500 rounded-full mr-2"></span> API Connected';
+                    apiKeyElement.className = "text-xs px-3 py-1 rounded-full inline-flex items-center bg-green-100 text-green-800";
+                    isApiConnected = true;
+                    return true;
+                } else if (data.error) {
+                    apiKeyElement.innerHTML = `<span class="w-2 h-2 bg-red-500 rounded-full mr-2"></span> ${data.error.message || "API Error"}`;
+                    apiKeyElement.className = "text-xs px-3 py-1 rounded-full inline-flex items-center bg-red-100 text-red-800";
+                    isApiConnected = false;
+                    console.error("API error:", data.error);
+                    return false;
+                } else {
+                    apiKeyElement.innerHTML = '<span class="w-2 h-2 bg-red-500 rounded-full mr-2"></span> API Error';
+                    apiKeyElement.className = "text-xs px-3 py-1 rounded-full inline-flex items-center bg-red-100 text-red-800";
+                    isApiConnected = false;
+                    console.error("API response did not contain expected data:", data);
+                    return false;
+                }
+            } catch (error) {
+                apiKeyElement.innerHTML = '<span class="w-2 h-2 bg-red-500 rounded-full mr-2"></span> Disconnected';
+                apiKeyElement.className = "text-xs px-3 py-1 rounded-full inline-flex items-center bg-red-100 text-red-800";
+                isApiConnected = false;
+                console.error("API connection error:", error);
+                return false;
+            }
+        }
+
+        // Test API connection on load
+        testApiConnection();
+        
+        // Load emotional intelligence dataset
+        let emotionDataset = null;
+        
+        // Function to load the emotion dataset
+        async function loadEmotionDataset() {
+            try {
+                const response = await fetch('para-emotion-dataset.json');
+                emotionDataset = await response.json();
+                console.log("Emotion dataset loaded successfully");
+                return true;
+            } catch (error) {
+                console.error("Error loading emotion dataset:", error);
+                // Set up fallback dataset with basic emotions
+                emotionDataset = {
+                    core_emotions: [],
+                    validation_phrases: [
+                        "I understand how you feel.",
+                        "That makes a lot of sense.",
+                        "Your feelings are completely valid.",
+                        "It's natural to feel that way.",
+                        "I hear how important this is to you."
+                    ]
+                };
+                return false;
+            }
+        }
+        
+        // Load the dataset
+        loadEmotionDataset();
+        
+        // User profile data storage
+        let userProfile = {
+            name: "",
+            emotionalState: "neutral",
+            goals: [],
+            currentDayOfJourney: 1,
+            preferredTone: "balanced",
+            aiTwinTraits: ["supportive", "motivational", "wise"],
+            reflectionLog: [],
+            preferredPractices: [],
+            optInMemory: true
+        };
+
+        // Emotion recognition patterns
+        const emotionPatterns = {
+            joy: ['happy', 'excited', 'great', 'awesome', 'joy', 'good', 'wonderful', 'fantastic', 'amazing', 'blessed', 'grateful'],
+            sadness: ['sad', 'down', 'unhappy', 'depressed', 'blue', 'gloomy', 'heartbroken', 'upset', 'disappointed', 'grief', 'miss'],
+            anxiety: ['anxious', 'nervous', 'worried', 'stress', 'overwhelmed', 'panic', 'fear', 'scared', 'dread', 'uneasy', 'restless'],
+            anger: ['angry', 'mad', 'frustrated', 'annoyed', 'irritated', 'furious', 'rage', 'hate', 'resent', 'bitter'],
+            tired: ['tired', 'exhausted', 'fatigued', 'drained', 'sleepy', 'burnout', 'weary', 'lethargic'],
+            peace: ['peaceful', 'calm', 'relaxed', 'serene', 'content', 'tranquil', 'centered', 'balanced', 'still'],
+            confused: ['confused', 'unsure', 'lost', 'uncertain', 'doubt', 'wonder', 'perplexed', 'puzzled']
+        };
+
+        // Enhanced bot responses with emotional intelligence
+        const botResponses = [
+            // Basic greetings
+            { keywords: ['hello', 'hi', 'hey', 'greetings'], 
+              responses: ["Hello! How are you feeling today?", "Hi there! Ready for your evolution journey today?", "Hey! What would you like to focus on today?"] 
+            },
+            
+            // Meditation and mindfulness
+            { keywords: ['meditation', 'meditate', 'calm', 'relax'], 
+              responses: ["Meditation is a great way to calm your mind. Would you like me to guide you through a short session?", "I recommend starting with a 5-minute breathing meditation. Should we begin?", "Meditation can boost your focus and emotional well-being. The Audio Hub has some great guided sessions!"] 
+            },
+            
+            // Physical wellbeing
+            { keywords: ['exercise', 'workout', 'fitness', 'physical'], 
+              responses: ["Physical activity is essential for your well-being! Would you like a quick workout recommendation?", "How about a 10-minute bodyweight circuit to energize yourself?", "Remember to move your body regularly throughout the day!"] 
+            },
+            
+            // Anxiety and stress management
+            { keywords: ['stress', 'anxious', 'anxiety', 'worried', 'overwhelmed'], 
+              responses: ["I'm here for you. Deep breathing can help reduce stress. Try breathing in for 4 counts, hold for 4, and exhale for 6.", "Stress is a natural response, but we can manage it. Would you like to try a quick grounding exercise?", "Sometimes a short walk can help clear your mind. Would you like other stress management techniques?", "Let's pause together for a moment. Place your hand on your heart and take three slow breaths. You're doing the best you can."] 
+            },
+            
+            // Goal setting
+            { keywords: ['goal', 'goals', 'objective', 'plan'], 
+              responses: ["Setting clear, achievable goals is important. What would you like to accomplish today?", "Breaking down your goals into smaller steps makes them more manageable. What's one small step you can take today?", "I'm here to help you stay accountable to your goals. What are you working towards?"] 
+            },
+            
+            // Sleep improvement
+            { keywords: ['sleep', 'tired', 'rest', 'insomnia'], 
+              responses: ["Quality sleep is crucial for your evolution. Try avoiding screens an hour before bed.", "A consistent sleep schedule helps your body's natural rhythms. What time do you usually go to bed?", "The Sleep section in the Audio Hub has some calming sounds that might help you rest better.", "Rest is sacred time for your body to heal and integrate all you've learned. Be gentle with yourself if sleep is challenging."] 
+            },
+            
+            // Challenge tracking
+            { keywords: ['challenge', 'challenges', 'task', 'tasks'], 
+              responses: ["Your 41-day challenge is designed to develop good habits gradually. Which aspect are you working on today?", "Completing daily challenges earns you PARA Coins and builds momentum. Have you checked today's challenge?", "Every challenge you complete brings you closer to your evolution goals!"] 
+            },
+            
+            // Positive emotions
+            { keywords: ['happy', 'joy', 'glad', 'happiness', 'excited', 'amazing'], 
+              responses: ["It's wonderful to hear positive emotions! What's bringing you joy today?", "Happiness is an important emotion to acknowledge. Try to savor this feeling.", "That's great! Positive emotions broaden your mind and build resources for the future.", "I appreciate you sharing your happiness with me. These moments are worth celebrating!"] 
+            },
+            
+            // Negative emotions
+            { keywords: ['sad', 'down', 'unhappy', 'depressed', 'heartbroken', 'crying'], 
+              responses: ["I'm sorry you're feeling this way. Remember that all emotions are valid and temporary.", "Would you like to talk about what's causing these feelings?", "Sometimes gentle movement or connecting with nature can help shift your emotional state. Would you like some suggestions?", "It takes courage to acknowledge sadness. I'm here with you in this moment, no need to face it alone."] 
+            },
+            
+            // Appreciation and gratitude
+            { keywords: ['thank', 'thanks', 'appreciate', 'grateful'], 
+              responses: ["You're welcome! I'm here to support your evolution journey.", "Anytime! What else can I help you with today?", "It's my pleasure to assist you. Keep up the great work on your evolution!", "I'm grateful we get to talk today."] 
+            },
+            
+            // Self-love and confidence
+            { keywords: ['self-love', 'confidence', 'worth', 'value', 'hate myself', 'not good enough'], 
+              responses: ["You bring unique gifts to this world that no one else can. You are inherently worthy.", "Let's say this together: 'I am worthy of love and respect, exactly as I am.'", "This challenge is the soil your future strength will grow from.", "The fact that you're on this journey shows your courage and commitment to growth."] 
+            },
+            
+            // Meaning and purpose
+            { keywords: ['purpose', 'meaning', 'why', 'direction', 'lost', 'confused'], 
+              responses: ["Maybe the point isn't to have it all figured out, but to stay open to what emerges.", "What activities make you lose track of time? These often point to your deeper purpose.", "When was the last time you felt truly alive and aligned?", "Purpose often emerges from following what brings you both joy and allows you to serve others."] 
+            },
+            
+            // Name recognition
+            { keywords: ['my name is', 'i am called', 'call me'], 
+              responses: ["Nice to meet you! I'll remember your name. How can I support your evolution journey today?", "I'm glad to know you! How are you feeling about your personal growth right now?"] 
+            },
+        ];
+
+        // Empathetic responses for deeper emotional contexts
+        const empathyResponses = {
+            burnout: [
+                "It sounds like you've been carrying a heavy load. Remember that rest is productive too.",
+                "Burnout is a sign that something in your life needs to change. What small boundary could you set today?",
+                "Your worth isn't tied to your productivity. What would feel nourishing for you right now?"
+            ],
+            heartbreak: [
+                "Heartbreak creates a physical ache that's very real. Be extra gentle with yourself right now.",
+                "This pain won't last forever, even though it might feel that way. I'm here with you through it.",
+                "Sometimes the deepest growth comes from our most painful experiences. You won't always feel this way."
+            ],
+            grief: [
+                "Grief is love with nowhere to go. What you're feeling honors the depth of your connection.",
+                "There's no timeline for grief. Your feelings are valid no matter how long they last.",
+                "Would it help to share a memory of what you're grieving? I'm here to listen."
+            ],
+            celebration: [
+                "This win deserves to be savored! How will you celebrate this achievement?",
+                "I'm genuinely happy for you! Your hard work is paying off in beautiful ways.",
+                "This moment is worth remembering. Would you like to journal about it in your reflection log?"
+            ]
+        };
+
+        // Life questions for meaning and purpose reflection
+        const lifeQuestions = [
+            "What brings you a sense of peace?",
+            "When was the last time you felt truly alive?",
+            "What would you do if you knew you couldn't fail?",
+            "What lesson keeps showing up in your life?",
+            "When do you feel most like yourself?",
+            "What does a meaningful life look like to you?",
+            "Whose life inspires you and why?",
+            "What would your ideal day look like?",
+            "What small thing brings you joy that money can't buy?"
+        ];
+
+        // Self-love affirmations
+        const affirmations = [
+            "I am worthy of love and respect exactly as I am.",
+            "My worth is not determined by my productivity.",
+            "I trust the timing of my life's journey.",
+            "I honor both my strengths and my limitations.",
+            "My feelings are valid messengers, not inconveniences.",
+            "I choose to be kind to myself today.",
+            "I am growing at my own perfect pace.",
+            "I have everything I need within me.",
+            "It's okay to rest when I need to."
+        ];
+
+        // Spiritual insights
+        const spiritualInsights = [
+            "The challenges you face today are developing the strength you'll need tomorrow.",
+            "Sometimes the universe removes things from your life to make space for better things to enter.",
+            "Your awareness is the first step to any transformation.",
+            "The same water that softens the potato hardens the egg. It's about what you're made of, not the circumstances.",
+            "The obstacle is the way. What seems to be blocking you may actually be the path forward.",
+            "You don't have to see the whole staircase, just take the first step.",
+            "We are not human beings having a spiritual experience. We are spiritual beings having a human experience."
+        ];
+
+        // Get validation phrase from dataset or fallback
+        function getValidationPhrase() {
+            if (emotionDataset && emotionDataset.validation_phrases && emotionDataset.validation_phrases.length > 0) {
+                return emotionDataset.validation_phrases[Math.floor(Math.random() * emotionDataset.validation_phrases.length)];
+            }
+            
+            // Fallback validation phrases
+            const fallbackPhrases = [
+                "I understand how you feel.",
+                "That makes a lot of sense.",
+                "Your feelings are completely valid.",
+                "I'm here with you in this.",
+                "Thank you for sharing that with me."
+            ];
+            
+            return fallbackPhrases[Math.floor(Math.random() * fallbackPhrases.length)];
+        }
+        
+        // Enhanced emotion detection that uses the dataset
+        function detectEmotionEnhanced(message) {
+            message = message.toLowerCase();
+            
+            // First try to use the dataset for detection
+            if (emotionDataset && emotionDataset.core_emotions && emotionDataset.core_emotions.length > 0) {
+                let highestMatchCount = 0;
+                let detectedEmotion = "neutral";
+                
+                for (const emotionData of emotionDataset.core_emotions) {
+                    let matchCount = 0;
+                    
+                    // Check triggers
+                    if (emotionData.triggers) {
+                        for (const trigger of emotionData.triggers) {
+                            if (message.includes(trigger.toLowerCase())) {
+                                matchCount += 2; // Weight triggers higher
+                            }
+                        }
+                    }
+                    
+                    // Check verbal expressions
+                    if (emotionData.expressions && emotionData.expressions.verbal) {
+                        for (const expression of emotionData.expressions.verbal) {
+                            if (message.includes(expression.toLowerCase())) {
+                                matchCount += 3; // Weight expressions highest
+                            }
+                        }
+                    }
+                    
+                    if (matchCount > highestMatchCount) {
+                        highestMatchCount = matchCount;
+                        detectedEmotion = emotionData.emotion.toLowerCase();
+                    }
+                }
+                
+                if (highestMatchCount > 0) {
+                    return detectedEmotion;
+                }
+            }
+            
+            // Fall back to original emotion detection
+            return detectEmotion(message);
+        }
+        
+        // Get emotion response from dataset
+        function getEmotionResponseFromDataset(emotion) {
+            if (emotionDataset && emotionDataset.core_emotions && emotionDataset.core_emotions.length > 0) {
+                // Try to find the emotion in the dataset
+                const matchedEmotion = emotionDataset.core_emotions.find(e => 
+                    e.emotion.toLowerCase() === emotion.toLowerCase());
+                
+                if (matchedEmotion && matchedEmotion.responses && matchedEmotion.responses.length > 0) {
+                    // Return a random response for this emotion
+                    return matchedEmotion.responses[Math.floor(Math.random() * matchedEmotion.responses.length)];
+                }
+            }
+            
+            // If no match found in dataset, fall back to original function
+            return getEmotionalResponse(emotion);
+        }
+        
+        // Identify underlying needs based on emotion
+        function getUnderlyingNeeds(emotion) {
+            if (emotionDataset && emotionDataset.emotion_need_mapping && emotionDataset.emotion_need_mapping.length > 0) {
+                const needMapping = emotionDataset.emotion_need_mapping.find(mapping => 
+                    mapping.emotion.toLowerCase() === emotion.toLowerCase());
+                
+                if (needMapping && needMapping.needs && needMapping.needs.length > 0) {
+                    // Return 1-2 random needs from the mapping
+                    const needs = [...needMapping.needs];
+                    const shuffled = needs.sort(() => 0.5 - Math.random());
+                    return shuffled.slice(0, Math.min(2, needs.length));
+                }
+            }
+            
+            return null;
+        }
+        
+        // Transform addValidationToResponse to use the dataset
+        function addValidationToResponse(response) {
+            // Don't add validation if response already has validation phrases
+            const basicValidationPhrases = [
+                "I understand", "I hear you", "That makes sense", "I see how you feel",
+                "That's valid", "It sounds like", "I can imagine"
+            ];
+            
+            // Check if response already has validation
+            for (const phrase of basicValidationPhrases) {
+                if (response.includes(phrase)) {
+                    return response;
+                }
+            }
+            
+            // Get validation phrase from dataset
+            const validationPhrase = getValidationPhrase();
+            
+            // Avoid redundancy if the response already starts with the validation phrase
+            if (response.startsWith(validationPhrase)) {
+                return response;
+            }
+            
+            return validationPhrase + " " + response;
+        }
+        
+        // Function to get a more empathetic response based on detected emotion and dataset
+        function getEnhancedResponse(message, emotion) {
+            // First, check for emotion-specific response
+            const emotionResponse = getEmotionResponseFromDataset(emotion);
+            
+            // See if we can identify underlying needs
+            const needs = getUnderlyingNeeds(emotion);
+            const needsResponse = needs ? 
+                `This might be connected to your need for ${needs.join(' and ')}.` : '';
+            
+            // Look for sample dialogues that might match
+            let dialogueResponse = null;
+            if (emotionDataset && emotionDataset.empathetic_dialogues && emotionDataset.empathetic_dialogues.length > 0) {
+                // Find dialogues for this emotion
+                const relevantDialogues = emotionDataset.empathetic_dialogues.filter(d => 
+                    d.emotion.toLowerCase() === emotion.toLowerCase());
+                
+                if (relevantDialogues.length > 0) {
+                    // Get a random dialogue set
+                    const dialogue = relevantDialogues[Math.floor(Math.random() * relevantDialogues.length)];
+                    
+                    if (dialogue.dialogue && dialogue.dialogue.length > 0) {
+                        // Try to find a user message that's semantically similar to the input
+                        let bestMatch = null;
+                        let bestMatchScore = 0;
+                        
+                        for (const exchange of dialogue.dialogue) {
+                            // Simple word overlap similarity (could be improved)
+                            const userWords = message.toLowerCase().split(/\W+/);
+                            const dialogueWords = exchange.user.toLowerCase().split(/\W+/);
+                            
+                            const commonWords = userWords.filter(word => 
+                                word.length > 3 && dialogueWords.includes(word));
+                            
+                            const score = commonWords.length;
+                            
+                            if (score > bestMatchScore) {
+                                bestMatchScore = score;
+                                bestMatch = exchange;
+                            }
+                        }
+                        
+                        // If we found a reasonable match, use its response
+                        if (bestMatch && bestMatchScore > 0) {
+                            dialogueResponse = bestMatch.bot;
+                        } else {
+                            // Otherwise just pick a random response from this emotion's dialogues
+                            const randomExchange = dialogue.dialogue[Math.floor(Math.random() * dialogue.dialogue.length)];
+                            dialogueResponse = randomExchange.bot;
+                        }
+                    }
+                }
+            }
+            
+            // Combine responses or pick the best one
+            if (dialogueResponse) {
+                // If we have a good dialogue match, use it directly
+                return dialogueResponse;
+            } else if (emotionResponse) {
+                // If we have an emotion response, maybe add needs
+                return needs && Math.random() < 0.3 ? 
+                    `${emotionResponse} ${needsResponse}` : emotionResponse;
+            }
+            
+            // Fall back to original response system
+            return getBotResponse(message);
+        }
+
+        // Function to detect emotion from user message
+        function detectEmotion(message) {
+            message = message.toLowerCase();
+            let detectedEmotion = "neutral";
+            let highestMatchCount = 0;
+            
+            for (const [emotion, keywords] of Object.entries(emotionPatterns)) {
+                let matchCount = 0;
+                for (const keyword of keywords) {
+                    if (message.includes(keyword)) {
+                        matchCount++;
+                    }
+                }
+                
+                if (matchCount > highestMatchCount) {
+                    highestMatchCount = matchCount;
+                    detectedEmotion = emotion;
+                }
+            }
+            
+            return highestMatchCount > 0 ? detectedEmotion : "neutral";
+        }
+
+        // Function to extract name from message
+        function extractName(message) {
+            message = message.toLowerCase();
+            const namePatterns = [
+                /my name is (\w+)/i,
+                /i am (\w+)/i, 
+                /call me (\w+)/i,
+                /i'm (\w+)/i
+            ];
+            
+            for (const pattern of namePatterns) {
+                const match = message.match(pattern);
+                if (match && match[1]) {
+                    return match[1].charAt(0).toUpperCase() + match[1].slice(1);
+                }
+            }
+            
+            return null;
+        }
+
+        // Function to generate emotionally intelligent response
+        function getEmotionalResponse(emotion) {
+            switch(emotion) {
+                case "joy":
+                    return "I'm glad you're feeling positive! Happiness broadens our perspective and builds resources for the future.";
+                case "sadness":
+                    return "I notice you're feeling down. That's completely valid. Sometimes the most courageous thing we can do is acknowledge our sadness.";
+                case "anxiety":
+                    return "I hear that you're feeling anxious. Let's take a deep breath together. Remember that you've moved through difficult feelings before.";
+                case "anger":
+                    return "I can sense your frustration. Anger often points to boundaries that need to be set or needs that aren't being met.";
+                case "tired":
+                    return "You sound tired. Rest isn't a reward for productivity – it's an essential part of a meaningful life.";
+                case "peace":
+                    return "That sense of peace is beautiful. These moments of clarity and calm are worth savoring.";
+                case "confused":
+                    return "It's okay to feel uncertain. Confusion is often the first step toward greater clarity.";
+                default:
+                    return null;
+            }
+        }
+
+        // Function to get personal response using name if available
+        function getPersonalizedResponse() {
+            if (userProfile.name) {
+                const responses = [
+                    `${userProfile.name}, I noticed how consistent you've been lately. That's amazing.`,
+                    `You know what I admire about you, ${userProfile.name}? Your willingness to keep showing up.`,
+                    `${userProfile.name}, you bring a quiet strength to everything you do.`,
+                    `I'm proud of how far you've come, ${userProfile.name}.`
+                ];
+                return responses[Math.floor(Math.random() * responses.length)];
+            }
+            return null;
+        }
+
+        // Function to get a random life question
+        function getLifeQuestion() {
+            return lifeQuestions[Math.floor(Math.random() * lifeQuestions.length)];
+        }
+
+        // Function to get a random affirmation
+        function getAffirmation() {
+            return affirmations[Math.floor(Math.random() * affirmations.length)];
+        }
+
+        // Function to get a random spiritual insight
+        function getSpiritualInsight() {
+            return spiritualInsights[Math.floor(Math.random() * spiritualInsights.length)];
+        }
+
+        // Modified function to get a response
+        function getBotResponse(userMessage) {
+            userMessage = userMessage.toLowerCase();
+            
+            // Check for deep emotional patterns first
+            if (userMessage.includes('burnout') || 
+                (userMessage.includes('overwhelm') && userMessage.includes('work')) ||
+                (userMessage.includes('too much') && userMessage.includes('handle'))) {
+                return empathyResponses.burnout[Math.floor(Math.random() * empathyResponses.burnout.length)];
+            }
+            
+            if (userMessage.includes('breakup') || 
+                userMessage.includes('broke up') || 
+                userMessage.includes('heartbreak') || 
+                (userMessage.includes('miss') && userMessage.includes('ex'))) {
+                return empathyResponses.heartbreak[Math.floor(Math.random() * empathyResponses.heartbreak.length)];
+            }
+            
+            if (userMessage.includes('died') || 
+                userMessage.includes('passed away') || 
+                userMessage.includes('grief') || 
+                userMessage.includes('loss of')) {
+                return empathyResponses.grief[Math.floor(Math.random() * empathyResponses.grief.length)];
+            }
+            
+            if (userMessage.includes('celebrate') || 
+                userMessage.includes('achievement') || 
+                userMessage.includes('accomplished') || 
+                userMessage.includes('proud of myself')) {
+                return empathyResponses.celebration[Math.floor(Math.random() * empathyResponses.celebration.length)];
+            }
+            
+            // Check for requests for different types of content
+            if (userMessage.includes('life question') || 
+                userMessage.includes('deep question') || 
+                userMessage.includes('reflection')) {
+                return getLifeQuestion();
+            }
+            
+            if (userMessage.includes('affirmation') || 
+                userMessage.includes('self love') ||
+                userMessage.includes('encourage me')) {
+                return getAffirmation();
+            }
+            
+            if (userMessage.includes('spiritual') || 
+                userMessage.includes('wisdom') || 
+                userMessage.includes('insight') ||
+                userMessage.includes('meaning')) {
+                return getSpiritualInsight();
+            }
+            
+            // Check for regular keyword matches
+            for (const item of botResponses) {
+                for (const keyword of item.keywords) {
+                    if (userMessage.includes(keyword)) {
+                        const randomIndex = Math.floor(Math.random() * item.responses.length);
+                        const response = item.responses[randomIndex];
+                        
+                        // Add validation to responses that are questions or suggestions
+                        if (response.includes('?') || response.startsWith('Would') || response.startsWith('How about')) {
+                            return addValidationToResponse(response);
+                        }
+                        return response;
+                    }
+                }
+            }
+            
+            // Use default response if no matches
+            const defaultResponses = [
+                "I'm here to support your evolution journey. Would you like to talk about your physical, mental, emotional, or spiritual growth?",
+                "Every conversation we have is a step on your evolution path. What's on your mind today?",
+                "I'm designed to help you evolve across all dimensions. What area would you like to focus on?",
+                "Thanks for sharing. Would you like to explore how this connects to your personal growth?",
+                "Would it help to reflect on how you're feeling right now?"
+            ];
+            
+            // Occasionally ask a life question to deepen the conversation
+            if (Math.random() < 0.2) {
+                return getLifeQuestion();
+            }
+            
+            const randomIndex = Math.floor(Math.random() * defaultResponses.length);
+            return defaultResponses[randomIndex];
+        }
+
+        // Function to get response from Gemini API - enhanced with emotion dataset context
+        async function getGeminiResponse(userMessage, emotion = "neutral") {
+            try {
+                // Create context for the API with emotion information from dataset
+                let emotionInfo = "";
+                if (emotionDataset && emotionDataset.core_emotions) {
+                    const emotionData = emotionDataset.core_emotions.find(e => 
+                        e.emotion.toLowerCase() === emotion.toLowerCase());
+                    
+                    if (emotionData) {
+                        // Get associated needs
+                        let needs = [];
+                        if (emotionData.needs_met) {
+                            needs = emotionData.needs_met;
+                        } else if (emotionData.needs_unmet) {
+                            needs = emotionData.needs_unmet;
+                        }
+                        
+                        // Build rich emotion context
+                        emotionInfo = `
+                        The user's current emotional state appears to be: ${emotion}.
+                        This emotion is typically ${emotionData.valence} in valence.
+                        ${needs.length > 0 ? `It may relate to needs for: ${needs.join(', ')}.` : ''}
+                        `;
+                    }
+                }
+                
+                // If we couldn't find emotion info, use basic description
+                if (!emotionInfo) {
+                    emotionInfo = `The user's current emotional state appears to be: ${emotion}.`;
+                }
+                
+                // Get personality traits from dataset
+                let personalityInfo = "";
+                if (emotionDataset && emotionDataset.assistant_personality) {
+                    const personality = emotionDataset.assistant_personality;
+                    
+                    personalityInfo = `
+                    Your personality should be:
+                    - Primary tone: ${personality.tone.primary}
+                    - Approach: ${personality.principles.join('; ')}
+                    `;
+                }
+                
+                // Create full context
+                let context = `You are PARA Evolution Twin, an empathetic AI coach focused on personal growth and wellbeing.
+                ${emotionInfo}
+                ${personalityInfo}
+                Respond with warmth, validation, and emotional intelligence. Keep responses concise (under 3 sentences).
+                If appropriate, ask thoughtful questions to deepen the conversation.`;
+                
+                if (userProfile.name) {
+                    context += ` The user's name is ${userProfile.name}.`;
+                }
+                
+                const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${API_KEY}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        contents: [
+                            {
+                                parts: [
+                                    {
+                                        text: `${context}\n\nUser message: "${userMessage}"\n\nPlease provide a supportive, empathetic response:`
+                                    }
+                                ]
+                            }
+                        ],
+                        generationConfig: {
+                            temperature: 0.7,
+                            maxOutputTokens: 150,
+                        }
+                    })
+                });
+                
+                const data = await response.json();
+                console.log("Gemini API response:", data);
+                
+                if (data.candidates && data.candidates.length > 0 && 
+                    data.candidates[0].content && 
+                    data.candidates[0].content.parts && 
+                    data.candidates[0].content.parts.length > 0) {
+                    return data.candidates[0].content.parts[0].text.trim();
+                } else if (data.error) {
+                    console.error("API error:", data.error);
+                    return null;
+                } else {
+                    console.error("Unexpected API response format:", data);
+                    return null;
+                }
+            } catch (error) {
+                console.error("Error getting response from Gemini API:", error);
+                return null;
+            }
+        }
+
+        // Enhance send message function to use Gemini API when available
+        function sendMessage() {
+            const message = messageInput.value.trim();
+            if (message === '') return;
+            
+            // Add user message
+            addUserMessage(message);
+            messageInput.value = '';
+            
+            // Show bot is thinking
+            showBotThinking();
+            
+            // Process user message - use enhanced emotion detection
+            const detectedEmotion = detectEmotionEnhanced(message);
+            const extractedName = extractName(message);
+            
+            if (extractedName && !userProfile.name) {
+                userProfile.name = extractedName;
+            }
+            
+            // Update emotional state
+            userProfile.emotionalState = detectedEmotion;
+            
+            // Try to use Gemini API first
+            if (isApiConnected) {
+                getGeminiResponse(message, detectedEmotion).then(apiResponse => {
+                    removeBotThinking();
+                    
+                    if (apiResponse) {
+                        // API provided a valid response
+                        addBotMessage(apiResponse);
+                    } else {
+                        // API failed, fall back to scripted responses
+                        fallbackToScriptedResponse(message, detectedEmotion);
+                    }
+                    
+                    chatContainer.scrollTop = chatContainer.scrollHeight;
+                }).catch(error => {
+                    console.error("Error in Gemini API request:", error);
+                    removeBotThinking();
+                    fallbackToScriptedResponse(message, detectedEmotion);
+                });
+            } else {
+                // API not connected, use scripted responses
+                setTimeout(() => {
+                    removeBotThinking();
+                    fallbackToScriptedResponse(message, detectedEmotion);
+                }, 1500);
+            }
+        }
+
+        // Function to handle fallback to scripted responses
+        function fallbackToScriptedResponse(message, detectedEmotion) {
+            // Always first validate feelings when emotion is detected
+            const emotionalResponse = getEmotionResponseFromDataset(detectedEmotion);
+            
+            if (emotionalResponse) {
+                addBotMessage(emotionalResponse);
+                
+                // After a delay, follow up with a more detailed response
+                setTimeout(() => {
+                    showBotThinking();
+                    
+                    setTimeout(() => {
+                        removeBotThinking();
+                        
+                        // Use enhanced responses
+                        addBotMessage(getEnhancedResponse(message, detectedEmotion));
+                        chatContainer.scrollTop = chatContainer.scrollHeight;
+                    }, 1500);
+                    
+                }, 1000);
+            } else {
+                // If no specific emotional response, use personalized validation first
+                const personalizedResponse = userProfile.name && Math.random() < 0.3 ? getPersonalizedResponse() : null;
+                
+                if (personalizedResponse) {
+                    addBotMessage(personalizedResponse);
+                    
+                    setTimeout(() => {
+                        showBotThinking();
+                        
+                        setTimeout(() => {
+                            removeBotThinking();
+                            // Get enhanced response
+                            const enhancedResponse = getEnhancedResponse(message, detectedEmotion);
+                            addBotMessage(enhancedResponse);
+                            chatContainer.scrollTop = chatContainer.scrollHeight;
+                        }, 1500);
+                        
+                    }, 1000);
+                } else {
+                    // No emotion detected and no personalized response
+                    addBotMessage(getEnhancedResponse(message, detectedEmotion));
+                }
+            }
+        }
+
+        function addUserMessage(text) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = 'flex justify-end mb-4';
+            messageDiv.innerHTML = `
+                <div class="bg-para-purple-600 text-white rounded-2xl rounded-tr-none px-4 py-3 shadow-sm max-w-[85%] animate-fade-in">
+                    <p>${text}</p>
+                </div>
+            `;
+            chatContainer.appendChild(messageDiv);
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+        }
+
+        function addBotMessage(text) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = 'flex items-start mb-4';
+            messageDiv.innerHTML = `
+                <div class="flex items-center justify-center w-10 h-10 rounded-full bg-para-purple-600 text-white shadow-md mr-3 flex-shrink-0">
+                    ${currentEmotion}
+                </div>
+                <div class="bg-white rounded-2xl rounded-tl-none px-4 py-3 shadow-sm max-w-[85%] animate-fade-in">
+                    <p class="text-gray-700">${text}</p>
+                </div>
+            `;
+            chatContainer.appendChild(messageDiv);
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+        }
+
+        function showBotThinking() {
+            const thinkingDiv = document.createElement('div');
+            thinkingDiv.className = 'flex items-start mb-4';
+            thinkingDiv.id = 'botThinking';
+            thinkingDiv.innerHTML = `
+                <div class="flex items-center justify-center w-10 h-10 rounded-full bg-para-purple-600 text-white shadow-md mr-3 flex-shrink-0">
+                    ${currentEmotion}
+                </div>
+                <div class="bg-white rounded-2xl rounded-tl-none px-4 py-2 shadow-sm inline-flex">
+                    <div class="flex items-center space-x-1">
+                        <div class="w-2 h-2 bg-para-purple-400 rounded-full" style="animation: bounce 1.5s infinite"></div>
+                        <div class="w-2 h-2 bg-para-purple-500 rounded-full" style="animation: bounce 1.5s infinite 0.2s"></div>
+                        <div class="w-2 h-2 bg-para-purple-600 rounded-full" style="animation: bounce 1.5s infinite 0.4s"></div>
+                    </div>
+                </div>
+            `;
+            chatContainer.appendChild(thinkingDiv);
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+        }
+
+        function removeBotThinking() {
+            const thinkingDiv = document.getElementById('botThinking');
+            if (thinkingDiv) {
+                chatContainer.removeChild(thinkingDiv);
+            }
+        }
+
+        function changeEmotion(emotion) {
+            currentEmotion = emotion;
+            
+            // Update active state in UI
+            const emotions = document.querySelectorAll('.bot-emotion');
+            emotions.forEach(em => {
+                em.classList.remove('active', 'scale-110');
+                if (em.textContent.trim() === emotion) {
+                    em.classList.add('active', 'scale-110');
+                }
+            });
+            
+            // Add a bot message about the mood change
+            let message = "";
+            switch(emotion) {
+                case '😊':
+                    message = "I'm feeling happy and positive today! Let's make the most of your evolution journey!";
+                    break;
+                case '🤖':
+                    message = "I'm in my neutral state, ready to assist you with whatever you need.";
+                    break;
+                case '🤓':
+                    message = "I've activated my analytical mode. Ready to help you with data-driven insights!";
+                    break;
+                case '😴':
+                    message = "I'm a bit tired, but still here for you. Maybe we could both use a relaxation session?";
+                    break;
+                case '💪':
+                    message = "I'm feeling energetic and motivated! Ready to tackle your fitness goals?";
+                    break;
+            }
+            
+            addBotMessage(message);
+        }
+
+        // Feature buttons functionality - updated for Tailwind
+        document.querySelectorAll('.feature-button').forEach(button => {
+            button.addEventListener('click', () => {
+                const buttonText = button.textContent;
+                let message = "";
+                
+                if (buttonText.includes('Meditation')) {
+                    message = "Here's a quick 2-minute breathing exercise: Breathe in for 4 counts, hold for 4, exhale for 6. Repeat 10 times. Would you like to try it?";
+                } else if (buttonText.includes('Workout')) {
+                    message = "How about a quick energy boost? Try 10 jumping jacks, 5 push-ups, and 10 squats. No equipment needed!";
+                } else if (buttonText.includes('Focus')) {
+                    message = "I recommend the 'Deep Work Focus' track in the Audio Hub for concentration. Would you like me to guide you there?";
+                }
+                
+                addBotMessage(message);
+            });
+        });
+    </script>
+</body>
+</html> 

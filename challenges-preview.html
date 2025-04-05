@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PARA Challenges Preview</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 414px;
+            margin: 0 auto;
+            border: 1px solid #ddd;
+            height: 100vh;
+            overflow-y: auto;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+        }
+        .progressHeader {
+            background-color: #4a1e9e;
+            padding: 20px;
+            padding-bottom: 30px;
+            color: white;
+        }
+        .progressTitle {
+            font-size: 22px;
+            font-weight: bold;
+            margin: 0 0 5px 0;
+        }
+        .progressSubtitle {
+            font-size: 16px;
+            color: rgba(255, 255, 255, 0.8);
+            margin: 0 0 15px 0;
+        }
+        .progressBar {
+            height: 8px;
+            background-color: rgba(255, 255, 255, 0.3);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        .progressFill {
+            height: 100%;
+            background-color: white;
+            border-radius: 4px;
+            width: 12%;
+        }
+        .listContainer {
+            padding: 16px;
+            padding-top: 20px;
+        }
+        .challengeCard {
+            background-color: white;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 16px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        .lockedCard {
+            background-color: #f0f0f0;
+            border: 1px dashed #ccc;
+        }
+        .challengeHeader {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 12px;
+        }
+        .dayBadge {
+            background-color: #4a1e9e;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-weight: bold;
+            font-size: 12px;
+            color: white;
+        }
+        .lockedDayBadge {
+            background-color: #999;
+        }
+        .categoryBadge {
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-weight: bold;
+            font-size: 12px;
+            color: white;
+        }
+        .challengeTitle {
+            font-size: 18px;
+            font-weight: bold;
+            margin: 0 0 8px 0;
+            color: #333;
+        }
+        .challengeDescription {
+            font-size: 14px;
+            color: #666;
+            margin: 0 0 15px 0;
+            line-height: 20px;
+        }
+        .lockedText {
+            color: #999;
+        }
+        .completionContainer {
+            display: flex;
+            align-items: center;
+        }
+        .checkbox {
+            width: 22px;
+            height: 22px;
+            border: 2px solid #4a1e9e;
+            border-radius: 4px;
+            margin-right: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .checkedBox {
+            background-color: #4a1e9e;
+        }
+        .checkmark {
+            color: white;
+            font-weight: bold;
+        }
+        .completionText {
+            font-size: 14px;
+            color: #666;
+        }
+        .completedText {
+            color: #4a1e9e;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="progressHeader">
+            <h1 class="progressTitle">41-Day Evolution Challenge</h1>
+            <p class="progressSubtitle">Day 5 of 41</p>
+            <div class="progressBar">
+                <div class="progressFill"></div>
+            </div>
+        </div>
+
+        <div class="listContainer">
+            <!-- Day 1 Challenge (Completed) -->
+            <div class="challengeCard">
+                <div class="challengeHeader">
+                    <div class="dayBadge">Day 1</div>
+                    <div class="categoryBadge" style="background-color: #2196F3;">Mental</div>
+                </div>
+                <h2 class="challengeTitle">Mindful Breathing</h2>
+                <p class="challengeDescription">Practice deep breathing for 5 minutes to reduce stress and increase focus.</p>
+                <div class="completionContainer">
+                    <div class="checkbox checkedBox">
+                        <span class="checkmark">✓</span>
+                    </div>
+                    <span class="completionText completedText">Completed</span>
+                </div>
+            </div>
+
+            <!-- Day 2 Challenge (Completed) -->
+            <div class="challengeCard">
+                <div class="challengeHeader">
+                    <div class="dayBadge">Day 2</div>
+                    <div class="categoryBadge" style="background-color: #FF9800;">Emotional</div>
+                </div>
+                <h2 class="challengeTitle">Gratitude Journal</h2>
+                <p class="challengeDescription">Write down 3 things you are grateful for to improve emotional wellbeing.</p>
+                <div class="completionContainer">
+                    <div class="checkbox checkedBox">
+                        <span class="checkmark">✓</span>
+                    </div>
+                    <span class="completionText completedText">Completed</span>
+                </div>
+            </div>
+
+            <!-- Day 3 Challenge (Completed) -->
+            <div class="challengeCard">
+                <div class="challengeHeader">
+                    <div class="dayBadge">Day 3</div>
+                    <div class="categoryBadge" style="background-color: #4CAF50;">Physical</div>
+                </div>
+                <h2 class="challengeTitle">Morning Stretch</h2>
+                <p class="challengeDescription">Complete a 10-minute stretching routine to improve flexibility and reduce tension.</p>
+                <div class="completionContainer">
+                    <div class="checkbox checkedBox">
+                        <span class="checkmark">✓</span>
+                    </div>
+                    <span class="completionText completedText">Completed</span>
+                </div>
+            </div>
+
+            <!-- Day 4 Challenge (Uncompleted) -->
+            <div class="challengeCard">
+                <div class="challengeHeader">
+                    <div class="dayBadge">Day 4</div>
+                    <div class="categoryBadge" style="background-color: #2196F3;">Mental</div>
+                </div>
+                <h2 class="challengeTitle">Digital Detox</h2>
+                <p class="challengeDescription">Spend 2 hours without any electronic devices to reset your mind.</p>
+                <div class="completionContainer">
+                    <div class="checkbox"></div>
+                    <span class="completionText">Mark as complete</span>
+                </div>
+            </div>
+
+            <!-- Day 5 Challenge (Uncompleted) -->
+            <div class="challengeCard">
+                <div class="challengeHeader">
+                    <div class="dayBadge">Day 5</div>
+                    <div class="categoryBadge" style="background-color: #9C27B0;">Spiritual</div>
+                </div>
+                <h2 class="challengeTitle">Meditation Session</h2>
+                <p class="challengeDescription">Meditate for 10 minutes using the guided session in the Audio Hub.</p>
+                <div class="completionContainer">
+                    <div class="checkbox"></div>
+                    <span class="completionText">Mark as complete</span>
+                </div>
+            </div>
+
+            <!-- Day 6 Challenge (Locked) -->
+            <div class="challengeCard lockedCard">
+                <div class="challengeHeader">
+                    <div class="dayBadge lockedDayBadge">Day 6</div>
+                    <div class="categoryBadge" style="background-color: #4CAF50;">Physical</div>
+                </div>
+                <h2 class="challengeTitle lockedText">Locked Challenge</h2>
+                <p class="challengeDescription lockedText">Complete previous challenges to unlock</p>
+            </div>
+
+            <!-- Day 7 Challenge (Locked) -->
+            <div class="challengeCard lockedCard">
+                <div class="challengeHeader">
+                    <div class="dayBadge lockedDayBadge">Day 7</div>
+                    <div class="categoryBadge" style="background-color: #FF9800;">Emotional</div>
+                </div>
+                <h2 class="challengeTitle lockedText">Locked Challenge</h2>
+                <p class="challengeDescription lockedText">Complete previous challenges to unlock</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html> 

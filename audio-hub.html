@@ -1,0 +1,919 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PARA Evolution - Audio Hub</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+        
+        .container {
+            max-width: 500px;
+            margin: 0 auto;
+            background-color: white;
+            min-height: 100vh;
+            box-shadow: 0 0 15px rgba(0,0,0,0.05);
+        }
+        
+        .header {
+            background-color: #4a1e9e;
+            padding: 20px;
+            color: white;
+            text-align: center;
+            position: relative;
+        }
+        
+        .header h1 {
+            margin: 0;
+            font-size: 22px;
+        }
+        
+        .header p {
+            margin: 5px 0 0;
+            font-size: 14px;
+            opacity: 0.9;
+        }
+        
+        .back-button {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+        }
+        
+        .categories {
+            display: flex;
+            overflow-x: auto;
+            padding: 15px;
+            background-color: #f9f5ff;
+            scrollbar-width: none; /* Firefox */
+        }
+        
+        .categories::-webkit-scrollbar {
+            display: none; /* Chrome, Safari, Edge */
+        }
+        
+        .category {
+            min-width: 100px;
+            padding: 12px 15px;
+            margin-right: 10px;
+            text-align: center;
+            background-color: white;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 500;
+            color: #666;
+            cursor: pointer;
+            border: 2px solid transparent;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+        
+        .category.active {
+            border-color: #4a1e9e;
+            color: #4a1e9e;
+            background-color: #f1ebff;
+        }
+        
+        .audio-list {
+            padding: 20px;
+        }
+        
+        .audio-card {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            padding: 15px;
+            margin-bottom: 15px;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .audio-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        .audio-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 10px;
+            background-color: #f1ebff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            font-size: 24px;
+        }
+        
+        .audio-info {
+            flex: 1;
+        }
+        
+        .audio-title {
+            font-weight: bold;
+            margin: 0 0 5px;
+            color: #333;
+        }
+        
+        .audio-meta {
+            display: flex;
+            font-size: 12px;
+            color: #888;
+        }
+        
+        .audio-duration {
+            margin-right: 15px;
+        }
+        
+        .audio-controls {
+            margin-top: 10px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .play-button {
+            background-color: #4a1e9e;
+            color: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 16px;
+            margin-right: 10px;
+            text-align: center;
+            line-height: 40px;
+            padding: 0;
+        }
+        
+        .pause-button {
+            background-color: #e74c3c;
+        }
+        
+        .progress-container {
+            flex: 1;
+            background-color: #f1ebff;
+            height: 5px;
+            border-radius: 3px;
+            position: relative;
+        }
+        
+        .progress-bar {
+            height: 100%;
+            background-color: #4a1e9e;
+            border-radius: 3px;
+            width: 0%;
+            transition: width 0.1s linear;
+        }
+        
+        .time-display {
+            margin-left: 10px;
+            font-size: 12px;
+            color: #888;
+            min-width: 60px;
+        }
+        
+        .audio-description {
+            margin-top: 10px;
+            font-size: 14px;
+            color: #666;
+        }
+        
+        /* Hide all category content by default */
+        .category-content {
+            display: none;
+        }
+        
+        /* Show active category */
+        .category-content.active {
+            display: block;
+        }
+        
+        .now-playing {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background-color: #4a1e9e;
+            color: white;
+            padding: 12px 20px;
+            display: flex;
+            align-items: center;
+            z-index: 100;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+            max-width: 500px;
+            margin: 0 auto;
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+        }
+        
+        .now-playing.visible {
+            transform: translateY(0);
+        }
+        
+        .now-playing-icon {
+            font-size: 24px;
+            margin-right: 15px;
+        }
+        
+        .now-playing-info {
+            flex: 1;
+        }
+        
+        .now-playing-title {
+            font-weight: bold;
+            font-size: 14px;
+            margin: 0;
+        }
+        
+        .now-playing-category {
+            font-size: 12px;
+            opacity: 0.8;
+        }
+        
+        .now-playing-close {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 20px;
+            cursor: pointer;
+        }
+        
+        .volume-control {
+            display: flex;
+            align-items: center;
+            margin-top: 10px;
+            padding-left: 50px;
+        }
+        
+        .volume-icon {
+            margin-right: 10px;
+            font-size: 16px;
+            color: #666;
+        }
+        
+        .volume-slider {
+            flex: 1;
+            -webkit-appearance: none;
+            width: 100%;
+            height: 5px;
+            border-radius: 5px;
+            background: #f1ebff;
+            outline: none;
+        }
+        
+        .volume-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            background: #4a1e9e;
+            cursor: pointer;
+        }
+        
+        .volume-slider::-moz-range-thumb {
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            background: #4a1e9e;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <button class="back-button">←</button>
+            <h1>Audio Hub</h1>
+            <p>Sounds for your evolution journey</p>
+        </div>
+        
+        <div class="categories">
+            <div class="category active" data-category="meditation">Meditation</div>
+            <div class="category" data-category="workout">Workout</div>
+            <div class="category" data-category="focus">Focus</div>
+            <div class="category" data-category="sleep">Sleep</div>
+            <div class="category" data-category="binaural">Binaural</div>
+        </div>
+        
+        <!-- Meditation Content -->
+        <div class="category-content active" id="meditation-content">
+            <div class="audio-list">
+                <div class="audio-card" data-audio="https://orangefreesounds.com/wp-content/uploads/2025/03/Relaxing-music-for-stress-relief.mp3">
+                    <div class="audio-header">
+                        <div class="audio-icon">🧘</div>
+                        <div class="audio-info">
+                            <h3 class="audio-title">Relaxing Music For Stress Relief</h3>
+                            <div class="audio-meta">
+                                <span class="audio-duration">4:00</span>
+                                <span class="audio-instructor">By Alexander Blu</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="audio-controls">
+                        <button class="play-button">▶</button>
+                        <div class="progress-container">
+                            <div class="progress-bar"></div>
+                        </div>
+                        <div class="time-display">0:00</div>
+                    </div>
+                    <div class="volume-control">
+                        <span class="volume-icon">🔊</span>
+                        <input type="range" min="0" max="1" step="0.01" value="0.7" class="volume-slider">
+                    </div>
+                    <div class="audio-description">
+                        Deep relaxation music with piano and warm synth pads. A soothing instrumental ambient composition.
+                    </div>
+                </div>
+                
+                <div class="audio-card" data-audio="https://filesamples.com/samples/audio/mp3/sample1.mp3">
+                    <div class="audio-header">
+                        <div class="audio-icon">🧘</div>
+                        <div class="audio-info">
+                            <h3 class="audio-title">Zen Garden</h3>
+                            <div class="audio-meta">
+                                <span class="audio-duration">3:15</span>
+                                <span class="audio-instructor">By FASSounds</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="audio-controls">
+                        <button class="play-button">▶</button>
+                        <div class="progress-container">
+                            <div class="progress-bar"></div>
+                        </div>
+                        <div class="time-display">0:00</div>
+                    </div>
+                    <div class="volume-control">
+                        <span class="volume-icon">🔊</span>
+                        <input type="range" min="0" max="1" step="0.01" value="0.7" class="volume-slider">
+                    </div>
+                    <div class="audio-description">
+                        Ambient sounds inspired by traditional Japanese zen gardens.
+                    </div>
+                </div>
+                
+                <div class="audio-card" data-audio="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3">
+                    <div class="audio-header">
+                        <div class="audio-icon">🧘</div>
+                        <div class="audio-info">
+                            <h3 class="audio-title">Calm Meditation</h3>
+                            <div class="audio-meta">
+                                <span class="audio-duration">4:09</span>
+                                <span class="audio-instructor">By SamuelFrancisJohnson</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="audio-controls">
+                        <button class="play-button">▶</button>
+                        <div class="progress-container">
+                            <div class="progress-bar"></div>
+                        </div>
+                        <div class="time-display">0:00</div>
+                    </div>
+                    <div class="volume-control">
+                        <span class="volume-icon">🔊</span>
+                        <input type="range" min="0" max="1" step="0.01" value="0.7" class="volume-slider">
+                    </div>
+                    <div class="audio-description">
+                        Gentle piano and atmospheric sounds for a calming meditation.
+                    </div>
+                </div>
+                
+                <div class="audio-card" data-audio="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3">
+                    <div class="audio-header">
+                        <div class="audio-icon">🧘</div>
+                        <div class="audio-info">
+                            <h3 class="audio-title">Deep Meditation</h3>
+                            <div class="audio-meta">
+                                <span class="audio-duration">5:07</span>
+                                <span class="audio-instructor">By Zen Man</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="audio-controls">
+                        <button class="play-button">▶</button>
+                        <div class="progress-container">
+                            <div class="progress-bar"></div>
+                        </div>
+                        <div class="time-display">0:00</div>
+                    </div>
+                    <div class="volume-control">
+                        <span class="volume-icon">🔊</span>
+                        <input type="range" min="0" max="1" step="0.01" value="0.7" class="volume-slider">
+                    </div>
+                    <div class="audio-description">
+                        Ambient sounds for deeper states of meditation and healing.
+                    </div>
+                </div>
+                
+                <div class="audio-card" data-audio="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-13.mp3">
+                    <div class="audio-header">
+                        <div class="audio-icon">🧘</div>
+                        <div class="audio-info">
+                            <h3 class="audio-title">Peaceful Journey</h3>
+                            <div class="audio-meta">
+                                <span class="audio-duration">2:10</span>
+                                <span class="audio-instructor">By MusicLFiles</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="audio-controls">
+                        <button class="play-button">▶</button>
+                        <div class="progress-container">
+                            <div class="progress-bar"></div>
+                        </div>
+                        <div class="time-display">0:00</div>
+                    </div>
+                    <div class="volume-control">
+                        <span class="volume-icon">🔊</span>
+                        <input type="range" min="0" max="1" step="0.01" value="0.7" class="volume-slider">
+                    </div>
+                    <div class="audio-description">
+                        A serene soundscape to accompany your meditation journey.
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Workout Content -->
+        <div class="category-content" id="workout-content">
+            <div class="audio-list">
+                <div class="audio-card" data-audio="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3">
+                    <div class="audio-header">
+                        <div class="audio-icon">💪</div>
+                        <div class="audio-info">
+                            <h3 class="audio-title">High Energy HIIT Mix</h3>
+                            <div class="audio-meta">
+                                <span class="audio-duration">25:00</span>
+                                <span class="audio-instructor">By Fitness Pro</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="audio-controls">
+                        <button class="play-button">▶</button>
+                        <div class="progress-container">
+                            <div class="progress-bar"></div>
+                        </div>
+                        <div class="time-display">0:00</div>
+                    </div>
+                    <div class="volume-control">
+                        <span class="volume-icon">🔊</span>
+                        <input type="range" min="0" max="1" step="0.01" value="0.7" class="volume-slider">
+                    </div>
+                    <div class="audio-description">
+                        Upbeat music for your high-intensity interval training.
+                    </div>
+                </div>
+                
+                <div class="audio-card" data-audio="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3">
+                    <div class="audio-header">
+                        <div class="audio-icon">🏃</div>
+                        <div class="audio-info">
+                            <h3 class="audio-title">Cardio Rhythm Boost</h3>
+                            <div class="audio-meta">
+                                <span class="audio-duration">30:15</span>
+                                <span class="audio-instructor">By RunTrainer</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="audio-controls">
+                        <button class="play-button">▶</button>
+                        <div class="progress-container">
+                            <div class="progress-bar"></div>
+                        </div>
+                        <div class="time-display">0:00</div>
+                    </div>
+                    <div class="volume-control">
+                        <span class="volume-icon">🔊</span>
+                        <input type="range" min="0" max="1" step="0.01" value="0.7" class="volume-slider">
+                    </div>
+                    <div class="audio-description">
+                        Perfect for running and cardio workouts with increasing tempo.
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Focus Content -->
+        <div class="category-content" id="focus-content">
+            <div class="audio-list">
+                <div class="audio-card" data-audio="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-5.mp3">
+                    <div class="audio-header">
+                        <div class="audio-icon">🧠</div>
+                        <div class="audio-info">
+                            <h3 class="audio-title">Deep Focus Ambient</h3>
+                            <div class="audio-meta">
+                                <span class="audio-duration">45:00</span>
+                                <span class="audio-instructor">By FocusLab</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="audio-controls">
+                        <button class="play-button">▶</button>
+                        <div class="progress-container">
+                            <div class="progress-bar"></div>
+                        </div>
+                        <div class="time-display">0:00</div>
+                    </div>
+                    <div class="volume-control">
+                        <span class="volume-icon">🔊</span>
+                        <input type="range" min="0" max="1" step="0.01" value="0.7" class="volume-slider">
+                    </div>
+                    <div class="audio-description">
+                        Ambient sounds designed to help you focus for extended periods.
+                    </div>
+                </div>
+                
+                <div class="audio-card" data-audio="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-6.mp3">
+                    <div class="audio-header">
+                        <div class="audio-icon">📚</div>
+                        <div class="audio-info">
+                            <h3 class="audio-title">Study Session</h3>
+                            <div class="audio-meta">
+                                <span class="audio-duration">60:00</span>
+                                <span class="audio-instructor">By MindTunes</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="audio-controls">
+                        <button class="play-button">▶</button>
+                        <div class="progress-container">
+                            <div class="progress-bar"></div>
+                        </div>
+                        <div class="time-display">0:00</div>
+                    </div>
+                    <div class="volume-control">
+                        <span class="volume-icon">🔊</span>
+                        <input type="range" min="0" max="1" step="0.01" value="0.7" class="volume-slider">
+                    </div>
+                    <div class="audio-description">
+                        Improve concentration with this specially designed study music.
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Sleep Content -->
+        <div class="category-content" id="sleep-content">
+            <div class="audio-list">
+                <div class="audio-card" data-audio="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-7.mp3">
+                    <div class="audio-header">
+                        <div class="audio-icon">😴</div>
+                        <div class="audio-info">
+                            <h3 class="audio-title">Deep Sleep Waves</h3>
+                            <div class="audio-meta">
+                                <span class="audio-duration">8:00:00</span>
+                                <span class="audio-instructor">By SleepWell</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="audio-controls">
+                        <button class="play-button">▶</button>
+                        <div class="progress-container">
+                            <div class="progress-bar"></div>
+                        </div>
+                        <div class="time-display">0:00</div>
+                    </div>
+                    <div class="volume-control">
+                        <span class="volume-icon">🔊</span>
+                        <input type="range" min="0" max="1" step="0.01" value="0.7" class="volume-slider">
+                    </div>
+                    <div class="audio-description">
+                        Ocean sounds to help you fall asleep naturally and stay asleep.
+                    </div>
+                </div>
+                
+                <div class="audio-card" data-audio="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-8.mp3">
+                    <div class="audio-header">
+                        <div class="audio-icon">🌙</div>
+                        <div class="audio-info">
+                            <h3 class="audio-title">Night Rain Ambience</h3>
+                            <div class="audio-meta">
+                                <span class="audio-duration">9:00:00</span>
+                                <span class="audio-instructor">By NatureScapes</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="audio-controls">
+                        <button class="play-button">▶</button>
+                        <div class="progress-container">
+                            <div class="progress-bar"></div>
+                        </div>
+                        <div class="time-display">0:00</div>
+                    </div>
+                    <div class="volume-control">
+                        <span class="volume-icon">🔊</span>
+                        <input type="range" min="0" max="1" step="0.01" value="0.7" class="volume-slider">
+                    </div>
+                    <div class="audio-description">
+                        Gentle rainfall sounds for a peaceful night's sleep.
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Binaural Content -->
+        <div class="category-content" id="binaural-content">
+            <div class="audio-list">
+                <div class="audio-card" data-audio="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-9.mp3">
+                    <div class="audio-header">
+                        <div class="audio-icon">🔄</div>
+                        <div class="audio-info">
+                            <h3 class="audio-title">Alpha Waves</h3>
+                            <div class="audio-meta">
+                                <span class="audio-duration">55:00</span>
+                                <span class="audio-instructor">By BrainHack</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="audio-controls">
+                        <button class="play-button">▶</button>
+                        <div class="progress-container">
+                            <div class="progress-bar"></div>
+                        </div>
+                        <div class="time-display">0:00</div>
+                    </div>
+                    <div class="volume-control">
+                        <span class="volume-icon">🔊</span>
+                        <input type="range" min="0" max="1" step="0.01" value="0.7" class="volume-slider">
+                    </div>
+                    <div class="audio-description">
+                        Alpha binaural beats to promote creativity and relaxation.
+                    </div>
+                </div>
+                
+                <div class="audio-card" data-audio="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-10.mp3">
+                    <div class="audio-header">
+                        <div class="audio-icon">🧠</div>
+                        <div class="audio-info">
+                            <h3 class="audio-title">Theta Meditation</h3>
+                            <div class="audio-meta">
+                                <span class="audio-duration">45:00</span>
+                                <span class="audio-instructor">By MindSync</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="audio-controls">
+                        <button class="play-button">▶</button>
+                        <div class="progress-container">
+                            <div class="progress-bar"></div>
+                        </div>
+                        <div class="time-display">0:00</div>
+                    </div>
+                    <div class="volume-control">
+                        <span class="volume-icon">🔊</span>
+                        <input type="range" min="0" max="1" step="0.01" value="0.7" class="volume-slider">
+                    </div>
+                    <div class="audio-description">
+                        Theta waves to enhance meditation and access deeper states of mind.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Now Playing Bar -->
+    <div class="now-playing" id="nowPlaying">
+        <div class="now-playing-icon">🎵</div>
+        <div class="now-playing-info">
+            <h4 class="now-playing-title">No track playing</h4>
+            <div class="now-playing-category">Select a track to play</div>
+        </div>
+        <button class="now-playing-close">×</button>
+    </div>
+    
+    <script>
+        // DOM Elements
+        const categories = document.querySelectorAll('.category');
+        const categoryContents = document.querySelectorAll('.category-content');
+        const playButtons = document.querySelectorAll('.play-button');
+        const volumeSliders = document.querySelectorAll('.volume-slider');
+        const nowPlaying = document.getElementById('nowPlaying');
+        const nowPlayingTitle = document.querySelector('.now-playing-title');
+        const nowPlayingCategory = document.querySelector('.now-playing-category');
+        const nowPlayingClose = document.querySelector('.now-playing-close');
+        
+        // Audio element
+        let audioElement = null;
+        let currentCard = null;
+        let currentButton = null;
+        let currentProgressBar = null;
+        let currentTimeDisplay = null;
+        let updateTimer = null;
+        
+        // Initialize
+        function init() {
+            setupEventListeners();
+        }
+        
+        // Setup event listeners
+        function setupEventListeners() {
+            // Category switching
+            categories.forEach(category => {
+                category.addEventListener('click', () => {
+                    const categoryName = category.dataset.category;
+                    
+                    // Update active category button
+                    categories.forEach(c => c.classList.remove('active'));
+                    category.classList.add('active');
+                    
+                    // Update visible content
+                    categoryContents.forEach(content => content.classList.remove('active'));
+                    document.getElementById(`${categoryName}-content`).classList.add('active');
+                });
+            });
+            
+            // Play buttons
+            playButtons.forEach(button => {
+                button.addEventListener('click', handlePlayClick);
+            });
+            
+            // Volume controls
+            volumeSliders.forEach(slider => {
+                slider.addEventListener('input', handleVolumeChange);
+            });
+            
+            // Now playing close button
+            nowPlayingClose.addEventListener('click', () => {
+                if (audioElement) {
+                    audioElement.pause();
+                    resetCurrentAudio();
+                }
+                nowPlaying.classList.remove('visible');
+            });
+            
+            // Back button
+            document.querySelector('.back-button').addEventListener('click', () => {
+                if (audioElement) {
+                    audioElement.pause();
+                }
+                window.location.href = 'index.html';
+            });
+        }
+        
+        // Handle play button click
+        function handlePlayClick(event) {
+            console.log("Play button clicked");
+            const button = event.currentTarget;
+            const card = button.closest('.audio-card');
+            const audioUrl = card.dataset.audio;
+            const title = card.querySelector('.audio-title').textContent;
+            const category = document.querySelector('.category.active').textContent;
+            const progressBar = card.querySelector('.progress-bar');
+            const timeDisplay = card.querySelector('.time-display');
+            const volumeSlider = card.querySelector('.volume-slider');
+            
+            console.log("Audio URL:", audioUrl);
+            
+            // If this is already playing, pause it
+            if (button.textContent === '❚❚') {
+                console.log("Pausing audio");
+                button.textContent = '▶';
+                button.classList.remove('pause-button');
+                if (audioElement) {
+                    audioElement.pause();
+                }
+                return;
+            }
+            
+            // Reset any currently playing audio
+            if (currentButton && currentButton !== button) {
+                console.log("Stopping previous audio");
+                currentButton.textContent = '▶';
+                currentButton.classList.remove('pause-button');
+                if (audioElement) {
+                    audioElement.pause();
+                }
+                clearInterval(updateTimer);
+            }
+            
+            // Create or update audio element
+            if (!audioElement || audioElement.src !== audioUrl) {
+                console.log("Creating new audio element");
+                if (audioElement) {
+                    audioElement.pause();
+                }
+                
+                audioElement = new Audio(audioUrl);
+                audioElement.volume = volumeSlider.value;
+                
+                // Set up audio events for error handling
+                audioElement.addEventListener('error', (e) => {
+                    console.error("Audio error:", e);
+                    alert("There was an error playing this audio. Please try another track.");
+                    button.textContent = '▶';
+                    button.classList.remove('pause-button');
+                });
+                
+                // Set up ended event
+                audioElement.addEventListener('ended', () => {
+                    console.log("Audio playback ended");
+                    button.textContent = '▶';
+                    button.classList.remove('pause-button');
+                    progressBar.style.width = '0%';
+                    timeDisplay.textContent = '0:00';
+                    clearInterval(updateTimer);
+                });
+            }
+            
+            // Update UI
+            button.textContent = '❚❚';
+            button.classList.add('pause-button');
+            currentButton = button;
+            currentCard = card;
+            currentProgressBar = progressBar;
+            currentTimeDisplay = timeDisplay;
+            
+            // Start playback with a promise to handle autoplay restrictions
+            console.log("Starting playback");
+            const playPromise = audioElement.play();
+            
+            if (playPromise !== undefined) {
+                playPromise.then(() => {
+                    console.log("Audio playback started successfully");
+                    // Update now playing bar
+                    nowPlayingTitle.textContent = title;
+                    nowPlayingCategory.textContent = category;
+                    nowPlaying.classList.add('visible');
+                    
+                    // Update progress bar
+                    updateTimer = setInterval(updateProgress, 100);
+                }).catch(error => {
+                    console.error("Playback failed:", error);
+                    // Autoplay was prevented, inform the user
+                    alert("Audio playback was blocked. Please try again by clicking the play button once more.");
+                    button.textContent = '▶';
+                    button.classList.remove('pause-button');
+                });
+            }
+        }
+        
+        // Update progress bar
+        function updateProgress() {
+            if (audioElement && currentProgressBar && currentTimeDisplay) {
+                const percentage = (audioElement.currentTime / audioElement.duration) * 100;
+                currentProgressBar.style.width = `${percentage}%`;
+                
+                // Format time display
+                const minutes = Math.floor(audioElement.currentTime / 60);
+                const seconds = Math.floor(audioElement.currentTime % 60);
+                currentTimeDisplay.textContent = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+            }
+        }
+        
+        // Handle volume change
+        function handleVolumeChange(event) {
+            const slider = event.target;
+            const volume = slider.value;
+            
+            // If this card is the one currently playing, update audio volume
+            if (audioElement && slider.closest('.audio-card') === currentCard) {
+                audioElement.volume = volume;
+            }
+        }
+        
+        // Reset current audio state
+        function resetCurrentAudio() {
+            if (currentButton) {
+                currentButton.textContent = '▶';
+                currentButton.classList.remove('pause-button');
+            }
+            
+            if (currentProgressBar) {
+                currentProgressBar.style.width = '0%';
+            }
+            
+            if (currentTimeDisplay) {
+                currentTimeDisplay.textContent = '0:00';
+            }
+            
+            clearInterval(updateTimer);
+            audioElement = null;
+            currentButton = null;
+            currentCard = null;
+            currentProgressBar = null;
+            currentTimeDisplay = null;
+        }
+        
+        // Initialize when the page loads
+        window.onload = init;
+    </script>
+</body>
+</html> 

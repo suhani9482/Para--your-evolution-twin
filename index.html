@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PARA Evolution App - Screens</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 30px 20px;
+        }
+        .header {
+            background-color: #4a1e9e;
+            padding: 30px 0;
+            text-align: center;
+            color: white;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+        .title {
+            font-size: 32px;
+            margin: 0 0 10px 0;
+        }
+        .subtitle {
+            font-size: 18px;
+            opacity: 0.9;
+            margin: 0;
+        }
+        .screens-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+        }
+        .screen-card {
+            background-color: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+            position: relative;
+        }
+        .screen-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+        }
+        .preview-image {
+            height: 150px;
+            background-color: #e0ddf5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 40px;
+        }
+        .screen-info {
+            padding: 15px;
+        }
+        .screen-title {
+            font-size: 18px;
+            margin: 0 0 5px 0;
+            color: #4a1e9e;
+            font-weight: bold;
+        }
+        .screen-description {
+            font-size: 14px;
+            margin: 0;
+            color: #666;
+            line-height: 1.4;
+        }
+        .screen-link {
+            display: block;
+            text-decoration: none;
+            color: inherit;
+        }
+        .view-button {
+            background-color: #4a1e9e;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            margin-top: 10px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 14px;
+            transition: background-color 0.3s;
+        }
+        .view-button:hover {
+            background-color: #3b1880;
+        }
+        .new-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: #ff6b6b;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        footer {
+            margin-top: 40px;
+            text-align: center;
+            color: #666;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1 class="title">PARA Evolution App</h1>
+            <p class="subtitle">Your personal journey to physical, mental, emotional, and spiritual growth</p>
+        </div>
+        
+        <div class="screens-container">
+            <a href="dashboard.html" class="screen-link">
+                <div class="screen-card">
+                    <div class="preview-image">📊</div>
+                    <div class="screen-info">
+                        <h2 class="screen-title">Dashboard</h2>
+                        <p class="screen-description">View your progress, daily challenges, and messages from your coach</p>
+                        <button class="view-button">View Screen</button>
+                    </div>
+                </div>
+            </a>
+            
+            <a href="challenges-interface.html" class="screen-link">
+                <div class="screen-card">
+                    <div class="preview-image">✅</div>
+                    <div class="screen-info">
+                        <h2 class="screen-title">41-Day Challenge</h2>
+                        <p class="screen-description">Track your progress through the 41-day evolution program</p>
+                        <button class="view-button">View Screen</button>
+                    </div>
+                </div>
+            </a>
+            
+            <a href="audio-hub.html" class="screen-link">
+                <div class="screen-card">
+                    <div class="preview-image">🎵</div>
+                    <div class="screen-info">
+                        <h2 class="screen-title">Audio Hub</h2>
+                        <p class="screen-description">Access guided meditations, music for focus and sleep</p>
+                        <button class="view-button">View Screen</button>
+                    </div>
+                </div>
+            </a>
+            
+            <a href="community-preview.html" class="screen-link">
+                <div class="screen-card">
+                    <div class="preview-image">👥</div>
+                    <div class="screen-info">
+                        <h2 class="screen-title">Community</h2>
+                        <p class="screen-description">Connect with others on their evolution journey</p>
+                        <button class="view-button">View Screen</button>
+                    </div>
+                </div>
+            </a>
+            
+            <a href="profile-preview.html" class="screen-link">
+                <div class="screen-card">
+                    <div class="preview-image">🤖</div>
+                    <div class="screen-info">
+                        <h2 class="screen-title">Evolution Twin</h2>
+                        <p class="screen-description">Customize your AI companion and view your achievements</p>
+                        <button class="view-button">View Screen</button>
+                    </div>
+                </div>
+            </a>
+            
+            <a href="interactive-bot.html" class="screen-link">
+                <div class="screen-card">
+                    <div class="preview-image">💬</div>
+                    <div class="screen-info">
+                        <h2 class="screen-title">Interactive Bot</h2>
+                        <p class="screen-description">Chat with your customizable Evolution Twin bot</p>
+                        <button class="view-button">View Screen</button>
+                    </div>
+                    <span class="new-badge">NEW!</span>
+                </div>
+            </a>
+            
+            <a href="inner-child-pet.html" class="screen-link">
+                <div class="screen-card">
+                    <div class="preview-image">🐱</div>
+                    <div class="screen-info">
+                        <h2 class="screen-title">Inner Child Pet</h2>
+                        <p class="screen-description">Nurture your inner child with emotion expression</p>
+                        <button class="view-button">View Screen</button>
+                    </div>
+                    <span class="new-badge">NEW!</span>
+                </div>
+            </a>
+        </div>
+        
+        <footer>
+            <p>PARA Evolution App - Developed for the hackathon based on Problem Statement 2</p>
+        </footer>
+    </div>
+</body>
+</html> 

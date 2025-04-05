@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PARA Community Screen Preview</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 414px;
+            margin: 0 auto;
+            border: 1px solid #ddd;
+            height: 100vh;
+            overflow-y: auto;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+        }
+        .header {
+            background-color: #4a1e9e;
+            padding: 20px;
+            color: white;
+        }
+        .headerTitle {
+            font-size: 24px;
+            font-weight: bold;
+            margin: 0;
+        }
+        .headerSubtitle {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.8);
+            margin-top: 5px;
+        }
+        .levelTabs {
+            display: flex;
+            background-color: white;
+            padding-top: 10px;
+        }
+        .levelTab {
+            flex: 1;
+            padding: 10px 0;
+            text-align: center;
+            border-bottom: 3px solid transparent;
+        }
+        .selectedTab {
+            border-bottom-color: #CD7F32;
+        }
+        .levelText {
+            font-size: 14px;
+            font-weight: bold;
+            color: #CD7F32;
+        }
+        .levelInfo {
+            padding: 15px;
+            background-color: white;
+            border-bottom: 1px solid #eee;
+        }
+        .levelInfoTitle {
+            font-size: 16px;
+            font-weight: bold;
+            color: #CD7F32;
+            margin-bottom: 5px;
+        }
+        .levelInfoText {
+            font-size: 14px;
+            color: #666;
+            line-height: 20px;
+        }
+        .messageList {
+            padding: 16px;
+        }
+        .messageCard {
+            background-color: white;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 16px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        .messageHeader {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        .userInfo {
+            display: flex;
+            align-items: center;
+        }
+        .userAvatar {
+            font-size: 20px;
+            margin-right: 8px;
+        }
+        .userName {
+            font-size: 14px;
+            font-weight: bold;
+            color: #333;
+        }
+        .messageTime {
+            font-size: 12px;
+            color: #999;
+        }
+        .messageText {
+            font-size: 15px;
+            color: #333;
+            line-height: 22px;
+            margin-bottom: 15px;
+        }
+        .messageFooter {
+            display: flex;
+            justify-content: space-between;
+        }
+        .likeButton {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+        }
+        .replyButton {
+            padding: 5px 10px;
+            background-color: #f0ebfa;
+            border-radius: 15px;
+            font-size: 12px;
+            color: #4a1e9e;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .composeContainer {
+            padding: 16px;
+            background-color: white;
+            border-top: 1px solid #eee;
+            display: flex;
+            align-items: center;
+            position: sticky;
+            bottom: 0;
+        }
+        .composeInput {
+            flex: 1;
+            background-color: #f5f5f5;
+            border-radius: 20px;
+            padding: 10px 15px;
+            border: none;
+            resize: none;
+            height: 40px;
+        }
+        .sendButton {
+            margin-left: 10px;
+            background-color: #4a1e9e;
+            border-radius: 20px;
+            padding: 10px 15px;
+            color: white;
+            font-weight: bold;
+            font-size: 14px;
+            border: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1 class="headerTitle">PARA Community</h1>
+            <p class="headerSubtitle">Connect. Share. Evolve.</p>
+        </div>
+
+        <div class="levelTabs">
+            <div class="levelTab selectedTab">
+                <div class="levelText">Bronze</div>
+            </div>
+            <div class="levelTab">
+                <div class="levelText" style="color: #C0C0C0;">Silver</div>
+            </div>
+            <div class="levelTab">
+                <div class="levelText" style="color: #999;">Gold 🔒</div>
+                <div style="font-size: 10px; color: #999;">500 coins needed</div>
+            </div>
+            <div class="levelTab">
+                <div class="levelText" style="color: #999;">Platinum 🔒</div>
+                <div style="font-size: 10px; color: #999;">1000 coins needed</div>
+            </div>
+        </div>
+
+        <div class="levelInfo">
+            <div class="levelInfoTitle">Bronze Community</div>
+            <div class="levelInfoText">Welcome to the Bronze community! Connect with beginners and coaches to start your evolution journey.</div>
+        </div>
+
+        <div class="messageList">
+            <div class="messageCard">
+                <div class="messageHeader">
+                    <div class="userInfo">
+                        <span class="userAvatar">👨‍💼</span>
+                        <span class="userName">Michael</span>
+                    </div>
+                    <span class="messageTime">2h ago</span>
+                </div>
+                <div class="messageText">Just completed my first meditation session! Feeling relaxed.</div>
+                <div class="messageFooter">
+                    <div class="likeButton">❤️ 3</div>
+                    <div class="replyButton">Reply</div>
+                </div>
+            </div>
+
+            <div class="messageCard">
+                <div class="messageHeader">
+                    <div class="userInfo">
+                        <span class="userAvatar">👩‍🦰</span>
+                        <span class="userName">Sarah</span>
+                    </div>
+                    <span class="messageTime">4h ago</span>
+                </div>
+                <div class="messageText">Day 15 of the challenge and already seeing improvements in my sleep quality!</div>
+                <div class="messageFooter">
+                    <div class="likeButton">❤️ 7</div>
+                    <div class="replyButton">Reply</div>
+                </div>
+            </div>
+
+            <div class="messageCard">
+                <div class="messageHeader">
+                    <div class="userInfo">
+                        <span class="userAvatar">🤖</span>
+                        <span class="userName">PARA Coach</span>
+                    </div>
+                    <span class="messageTime">5h ago</span>
+                </div>
+                <div class="messageText">Remember to drink water throughout the day for optimal physical health.</div>
+                <div class="messageFooter">
+                    <div class="likeButton">❤️ 12</div>
+                    <div class="replyButton">Reply</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="composeContainer">
+            <input type="text" class="composeInput" placeholder="Share something with the community...">
+            <button class="sendButton">Send</button>
+        </div>
+    </div>
+</body>
+</html> 

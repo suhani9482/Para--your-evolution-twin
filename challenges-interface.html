@@ -1,0 +1,836 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PARA Evolution - 41-Day Challenge</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+        
+        .container {
+            max-width: 500px;
+            margin: 0 auto;
+            background-color: white;
+            min-height: 100vh;
+            box-shadow: 0 0 15px rgba(0,0,0,0.05);
+        }
+        
+        .header {
+            background-color: #4a1e9e;
+            padding: 20px;
+            color: white;
+            text-align: center;
+            position: relative;
+        }
+        
+        .header h1 {
+            margin: 0;
+            font-size: 22px;
+        }
+        
+        .header p {
+            margin: 5px 0 0;
+            font-size: 14px;
+            opacity: 0.9;
+        }
+        
+        .back-button {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+        }
+        
+        .progress-section {
+            padding: 20px;
+            background-color: #f9f5ff;
+        }
+        
+        .progress-container {
+            background-color: #e0ddf5;
+            height: 10px;
+            border-radius: 5px;
+            overflow: hidden;
+            margin: 10px 0;
+        }
+        
+        .progress-bar {
+            height: 100%;
+            background-color: #4a1e9e;
+            border-radius: 5px;
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+        
+        .progress-stats {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            color: #666;
+        }
+        
+        .tabs {
+            display: flex;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .tab {
+            flex: 1;
+            text-align: center;
+            padding: 15px 0;
+            cursor: pointer;
+            font-weight: bold;
+            color: #666;
+            position: relative;
+        }
+        
+        .tab.active {
+            color: #4a1e9e;
+        }
+        
+        .tab.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background-color: #4a1e9e;
+        }
+        
+        .tab-content {
+            display: none;
+            padding: 20px;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .challenge-list {
+            margin-bottom: 20px;
+        }
+        
+        .challenge-card {
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            padding: 15px;
+            margin-bottom: 10px;
+            border-left: 3px solid #ccc;
+        }
+        
+        .challenge-card.physical {
+            border-left-color: #4ecdc4;
+        }
+        
+        .challenge-card.mental {
+            border-left-color: #4a1e9e;
+        }
+        
+        .challenge-card.emotional {
+            border-left-color: #ff6b6b;
+        }
+        
+        .challenge-card.spiritual {
+            border-left-color: #ffbe0b;
+        }
+        
+        .challenge-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        .challenge-checkbox {
+            appearance: none;
+            -webkit-appearance: none;
+            width: 24px;
+            height: 24px;
+            border: 2px solid #ddd;
+            border-radius: 6px;
+            margin-right: 12px;
+            position: relative;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .challenge-checkbox:checked {
+            background-color: #4a1e9e;
+            border-color: #4a1e9e;
+        }
+        
+        .challenge-checkbox:checked::after {
+            content: '✓';
+            position: absolute;
+            color: white;
+            font-size: 16px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        
+        /* Add hover effect for better user experience */
+        .challenge-checkbox:not([disabled]):hover {
+            border-color: #4a1e9e;
+            background-color: rgba(74, 30, 158, 0.1);
+        }
+        
+        .challenge-title {
+            font-weight: bold;
+            font-size: 16px;
+            margin: 0;
+            flex: 1;
+        }
+        
+        .challenge-category {
+            font-size: 11px;
+            padding: 3px 8px;
+            border-radius: 10px;
+            color: white;
+            margin-left: 10px;
+        }
+        
+        .category-physical {
+            background-color: #4ecdc4;
+        }
+        
+        .category-mental {
+            background-color: #4a1e9e;
+        }
+        
+        .category-emotional {
+            background-color: #ff6b6b;
+        }
+        
+        .category-spiritual {
+            background-color: #ffbe0b;
+        }
+        
+        .challenge-description {
+            color: #666;
+            font-size: 14px;
+            margin: 0;
+            padding-left: 35px;
+        }
+        
+        .day-header {
+            margin: 25px 0 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+            color: #4a1e9e;
+            font-weight: bold;
+        }
+        
+        .day-header:first-child {
+            margin-top: 0;
+        }
+        
+        .challenge-completed {
+            opacity: 0.7;
+        }
+        
+        .challenge-completed .challenge-title {
+            text-decoration: line-through;
+        }
+        
+        .day-locked {
+            background-color: #f9f9f9;
+            border-radius: 10px;
+            padding: 30px 20px;
+            text-align: center;
+            margin-top: 20px;
+        }
+        
+        .lock-icon {
+            font-size: 40px;
+            margin-bottom: 15px;
+            color: #ccc;
+        }
+        
+        .locked-title {
+            font-weight: bold;
+            color: #666;
+            margin-bottom: 10px;
+        }
+        
+        .locked-description {
+            color: #888;
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+        
+        .unlock-button {
+            background-color: #4a1e9e;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        
+        /* Modal for challenge completion */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0,0,0,0.5);
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
+        }
+        
+        .modal.show {
+            display: flex;
+        }
+        
+        .modal-content {
+            background-color: white;
+            border-radius: 10px;
+            padding: 25px;
+            width: 80%;
+            max-width: 350px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        
+        .completion-icon {
+            font-size: 50px;
+            margin-bottom: 15px;
+        }
+        
+        .completion-title {
+            font-weight: bold;
+            font-size: 18px;
+            margin-bottom: 15px;
+            color: #4a1e9e;
+        }
+        
+        .completion-message {
+            color: #666;
+            margin-bottom: 20px;
+        }
+        
+        .reward-container {
+            background-color: #f9f5ff;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .reward-icon {
+            font-size: 30px;
+            margin-right: 15px;
+        }
+        
+        .reward-text {
+            text-align: left;
+        }
+        
+        .reward-value {
+            font-weight: bold;
+            color: #4a1e9e;
+            font-size: 20px;
+        }
+        
+        .reward-label {
+            font-size: 12px;
+            color: #666;
+        }
+        
+        .modal-button {
+            background-color: #4a1e9e;
+            color: white;
+            border: none;
+            padding: 10px 25px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <button class="back-button">←</button>
+            <h1>41-Day Evolution Challenge</h1>
+            <p>Your journey to holistic transformation</p>
+        </div>
+        
+        <div class="progress-section">
+            <div class="progress-container">
+                <div class="progress-bar" id="overallProgress"></div>
+            </div>
+            <div class="progress-stats">
+                <span id="challengesCompleted">0 completed</span>
+                <span id="challengesRemaining">41 days</span>
+                <span id="progressPercentage">0%</span>
+            </div>
+        </div>
+        
+        <div class="tabs">
+            <div class="tab active" data-tab="current">Current</div>
+            <div class="tab" data-tab="upcoming">Upcoming</div>
+            <div class="tab" data-tab="completed">Completed</div>
+        </div>
+        
+        <div class="tab-content active" id="current">
+            <div class="day-header">Day 5 Challenges</div>
+            
+            <div class="challenge-list">
+                <div class="challenge-card physical">
+                    <div class="challenge-header">
+                        <input type="checkbox" class="challenge-checkbox" data-id="1" data-day="5" data-category="physical">
+                        <h3 class="challenge-title">15-minute workout</h3>
+                        <div class="challenge-category category-physical">Physical</div>
+                    </div>
+                    <p class="challenge-description">Complete a quick strength training session</p>
+                </div>
+                
+                <div class="challenge-card mental">
+                    <div class="challenge-header">
+                        <input type="checkbox" class="challenge-checkbox" data-id="2" data-day="5" data-category="mental">
+                        <h3 class="challenge-title">Mindful reading</h3>
+                        <div class="challenge-category category-mental">Mental</div>
+                    </div>
+                    <p class="challenge-description">Read for 20 minutes without distractions</p>
+                </div>
+                
+                <div class="challenge-card emotional">
+                    <div class="challenge-header">
+                        <input type="checkbox" class="challenge-checkbox" data-id="3" data-day="5" data-category="emotional">
+                        <h3 class="challenge-title">Gratitude journaling</h3>
+                        <div class="challenge-category category-emotional">Emotional</div>
+                    </div>
+                    <p class="challenge-description">Write down 3 things you're grateful for</p>
+                </div>
+            </div>
+            
+            <div class="day-header">Day 6 Challenges</div>
+            
+            <div class="day-locked">
+                <div class="lock-icon">🔒</div>
+                <h3 class="locked-title">Day 6 is Locked</h3>
+                <p class="locked-description">Complete all Day 5 challenges to unlock Day 6.</p>
+                <button class="unlock-button" id="unlockButton" disabled>Unlock (Complete Day 5 First)</button>
+            </div>
+        </div>
+        
+        <div class="tab-content" id="upcoming">
+            <div class="day-header">Upcoming Days</div>
+            
+            <div class="challenge-list">
+                <div class="challenge-card physical">
+                    <div class="challenge-header">
+                        <input type="checkbox" class="challenge-checkbox" disabled>
+                        <h3 class="challenge-title">Morning Exercise</h3>
+                        <div class="challenge-category category-physical">Physical</div>
+                    </div>
+                    <p class="challenge-description">Start your day with a 10-minute stretching routine for energy.</p>
+                </div>
+                
+                <div class="challenge-card emotional">
+                    <div class="challenge-header">
+                        <input type="checkbox" class="challenge-checkbox" disabled>
+                        <h3 class="challenge-title">Gratitude Journaling</h3>
+                        <div class="challenge-category category-emotional">Emotional</div>
+                    </div>
+                    <p class="challenge-description">Write down 3 things you're grateful for to foster positive emotions.</p>
+                </div>
+                
+                <div class="challenge-card mental">
+                    <div class="challenge-header">
+                        <input type="checkbox" class="challenge-checkbox" disabled>
+                        <h3 class="challenge-title">Focus Session</h3>
+                        <div class="challenge-category category-mental">Mental</div>
+                    </div>
+                    <p class="challenge-description">Complete a 25-minute focused work session without distractions.</p>
+                </div>
+            </div>
+            
+            <div class="day-locked" style="margin-top: 30px;">
+                <p class="locked-description">More challenges will be revealed as you progress through your journey.</p>
+            </div>
+        </div>
+        
+        <div class="tab-content" id="completed">
+            <div class="day-header">Completed Challenges</div>
+            
+            <div class="challenge-list" id="completedChallengesList">
+                <!-- Completed challenges will be dynamically populated here -->
+            </div>
+        </div>
+    </div>
+    
+    <!-- Challenge Completion Modal -->
+    <div class="modal" id="completionModal">
+        <div class="modal-content">
+            <div class="completion-icon">🎉</div>
+            <div class="completion-title">Challenge Completed!</div>
+            <p class="completion-message">Great job! You're making progress on your evolution journey.</p>
+            
+            <div class="reward-container">
+                <div class="reward-icon">🪙</div>
+                <div class="reward-text">
+                    <div class="reward-value">+15 PARA Coins</div>
+                    <div class="reward-label">Added to your balance</div>
+                </div>
+            </div>
+            
+            <button class="modal-button" id="closeModalButton">Continue</button>
+        </div>
+    </div>
+    
+    <script>
+        // User data
+        let userData = {
+            completedChallenges: 3,
+            totalChallenges: 41,
+            currentDay: 5,
+            currentStreak: 5,
+            paraCoins: 230,
+            totalDays: 41,
+            challenges: {
+                day5: [
+                    {
+                        id: 1,
+                        title: "15-minute workout",
+                        category: "physical",
+                        description: "Complete a quick strength training session",
+                        reward: 25,
+                        completed: false
+                    },
+                    {
+                        id: 2,
+                        title: "Mindful reading",
+                        category: "mental",
+                        description: "Read for 20 minutes without distractions",
+                        reward: 20,
+                        completed: false
+                    },
+                    {
+                        id: 3,
+                        title: "Gratitude journaling",
+                        category: "emotional",
+                        description: "Write down 3 things you're grateful for",
+                        reward: 15,
+                        completed: false
+                    }
+                ],
+                completed: [
+                    {
+                        id: 101,
+                        day: 4,
+                        title: "Mindful Breathing",
+                        category: "mental",
+                        description: "Practice deep breathing for 5 minutes to clear your mind.",
+                        reward: 15,
+                        completed: true
+                    },
+                    {
+                        id: 102,
+                        day: 4,
+                        title: "Self-Compassion Practice",
+                        category: "emotional",
+                        description: "Write a letter to yourself from a perspective of kindness and understanding.",
+                        reward: 15,
+                        completed: true
+                    }
+                ]
+            }
+        };
+
+        // Load saved data from localStorage if available
+        function loadUserData() {
+            const savedData = localStorage.getItem('paraEvolutionChallenges');
+            if (savedData) {
+                try {
+                    userData = JSON.parse(savedData);
+                    console.log("Loaded user data from localStorage:", userData);
+                } catch (e) {
+                    console.error("Error loading user data:", e);
+                }
+            }
+        }
+
+        // Save user data to localStorage
+        function saveUserData() {
+            try {
+                localStorage.setItem('paraEvolutionChallenges', JSON.stringify(userData));
+                console.log("Saved user data to localStorage");
+            } catch (e) {
+                console.error("Error saving user data:", e);
+            }
+        }
+        
+        // DOM Elements
+        const tabs = document.querySelectorAll('.tab');
+        const tabContents = document.querySelectorAll('.tab-content');
+        const overallProgressBar = document.getElementById('overallProgress');
+        const challengesCompletedEl = document.getElementById('challengesCompleted');
+        const challengesRemainingEl = document.getElementById('challengesRemaining');
+        const progressPercentageEl = document.getElementById('progressPercentage');
+        const currentChallengesList = document.getElementById('currentChallenges');
+        const upcomingChallengesList = document.getElementById('upcomingChallenges');
+        const completedChallengesList = document.getElementById('completedChallengesList');
+        const unlockButton = document.getElementById('unlockButton');
+        const completionModal = document.getElementById('completionModal');
+        const closeModalButton = document.getElementById('closeModalButton');
+        const checkboxes = document.querySelectorAll('.challenge-checkbox:not([disabled])');
+        
+        // Initialize the challenges interface
+        function initChallenges() {
+            loadUserData();
+            updateProgress();
+            setupEventListeners();
+            
+            // Initialize with proper progress value
+            const progressPercentage = (userData.completedChallenges / userData.totalChallenges) * 100;
+            overallProgressBar.style.width = `${progressPercentage}%`;
+            
+            // Populate completed challenges tab
+            userData.challenges.completed.forEach(challenge => {
+                const clonedCard = createChallengeCard(challenge, true);
+                completedChallengesList.prepend(clonedCard);
+            });
+            
+            // If there are completed challenges in day5, mark them as completed
+            populateCurrentChallenges();
+        }
+        
+        // Populate current challenges
+        function populateCurrentChallenges() {
+            // Mark challenges in the UI based on their completion status in the data
+            userData.challenges.day5.forEach(challenge => {
+                if (challenge.completed) {
+                    const challengeCard = document.querySelector(`.challenge-card[data-id="${challenge.id}"]`);
+                    if (challengeCard) {
+                        const checkbox = challengeCard.querySelector('.challenge-checkbox');
+                        if (checkbox) {
+                            checkbox.checked = true;
+                            challengeCard.classList.add('challenge-completed');
+                            challengeCard.querySelector('.challenge-title').style.textDecoration = 'line-through';
+                        }
+                    }
+                }
+            });
+        }
+        
+        // Create a challenge card for the completed tab
+        function createChallengeCard(challenge, isCompleted) {
+            const card = document.createElement('div');
+            card.className = `challenge-card ${challenge.category} challenge-completed`;
+            card.dataset.id = challenge.id;
+            card.dataset.day = challenge.day || 5;
+            card.dataset.category = challenge.category;
+            
+            card.innerHTML = `
+                <div class="challenge-header">
+                    <input type="checkbox" class="challenge-checkbox" checked disabled>
+                    <h3 class="challenge-title" style="text-decoration: line-through">${challenge.title}</h3>
+                    <div class="challenge-category category-${challenge.category}">${capitalizeFirstLetter(challenge.category)}</div>
+                </div>
+                <p class="challenge-description">${challenge.description}</p>
+                <div class="challenge-reward" style="padding-left: 35px; margin-top: 8px; font-size: 12px; color: #4a1e9e;">
+                    +${challenge.reward} PARA Coins earned
+                </div>
+            `;
+            
+            return card;
+        }
+        
+        // Helper function to capitalize the first letter
+        function capitalizeFirstLetter(string) {
+            return string.charAt(0).toUpperCase() + string.slice(1);
+        }
+        
+        // Setup event listeners
+        function setupEventListeners() {
+            // Tab switching
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    // Remove active class from all tabs and contents
+                    tabs.forEach(t => t.classList.remove('active'));
+                    tabContents.forEach(c => c.classList.remove('active'));
+                    
+                    // Add active class to clicked tab and corresponding content
+                    tab.classList.add('active');
+                    const tabId = tab.dataset.tab;
+                    document.getElementById(tabId).classList.add('active');
+                });
+            });
+            
+            // Challenge checkboxes - using a different approach to ensure all checkboxes are captured
+            document.querySelectorAll('.challenge-checkbox:not([disabled])').forEach(checkbox => {
+                checkbox.addEventListener('change', handleChallengeCompletion);
+            });
+            
+            // Close modal button
+            closeModalButton.addEventListener('click', () => {
+                completionModal.classList.remove('show');
+            });
+            
+            // Unlock button
+            unlockButton.addEventListener('click', () => {
+                if (!unlockButton.disabled) {
+                    alert("Day 6 has been unlocked! New challenges are now available.");
+                    // In a real app, this would update the UI to show Day 6 challenges
+                }
+            });
+            
+            // Back button
+            document.querySelector('.back-button').addEventListener('click', () => {
+                window.location.href = 'index.html';
+            });
+            
+            // Add a direct click handler for entire challenge cards
+            setupCardClickHandlers();
+        }
+        
+        // Add a direct click handler for entire challenge cards
+        function setupCardClickHandlers() {
+            const challengeCards = document.querySelectorAll('.challenge-card:not(.challenge-completed)');
+            challengeCards.forEach(card => {
+                // Make the whole card clickable for better UX
+                card.addEventListener('click', function(event) {
+                    // Only trigger if the click wasn't already on the checkbox itself
+                    if (event.target.classList.contains('challenge-checkbox')) {
+                        return;
+                    }
+                    
+                    // Find the checkbox within this card and toggle it
+                    const checkbox = this.querySelector('.challenge-checkbox:not([disabled])');
+                    if (checkbox) {
+                        checkbox.checked = !checkbox.checked;
+                        // Trigger the change event
+                        const changeEvent = new Event('change');
+                        checkbox.dispatchEvent(changeEvent);
+                    }
+                });
+            });
+        }
+        
+        // Handle challenge completion
+        function handleChallengeCompletion(event) {
+            console.log("Checkbox clicked:", event.target);
+            
+            const checkbox = event.target;
+            const challengeId = parseInt(checkbox.dataset.id);
+            const day = parseInt(checkbox.dataset.day);
+            const category = checkbox.dataset.category;
+            
+            console.log("Challenge data:", { id: challengeId, day, category });
+            
+            // Find the challenge in our data
+            const challenge = userData.challenges.day5.find(c => c.id === challengeId);
+            
+            if (challenge) {
+                console.log("Challenge found:", challenge);
+                // Update challenge status
+                challenge.completed = checkbox.checked;
+                
+                if (checkbox.checked) {
+                    // Update stats
+                    userData.completedChallenges++;
+                    userData.paraCoins += challenge.reward;
+                    
+                    // Add to completed challenges
+                    userData.challenges.completed.push({...challenge, day: day});
+                    
+                    // Get the challenge card and remove it from the current tab
+                    const challengeCard = checkbox.closest('.challenge-card');
+                    
+                    // Immediately remove the card from the current tab
+                    setTimeout(() => {
+                        challengeCard.remove();
+                    }, 500);
+                    
+                    // Update progress
+                    updateProgress();
+                    
+                    // Show completion modal
+                    document.querySelector('.reward-value').textContent = `+${challenge.reward} PARA Coins`;
+                    completionModal.classList.add('show');
+                    
+                    // Add the challenge to the completed tab
+                    const clonedCard = createChallengeCard(challenge, true);
+                    completedChallengesList.prepend(clonedCard);
+                } else {
+                    // Handle unchecking (optional, depends on app requirements)
+                    userData.completedChallenges--;
+                    userData.paraCoins -= challenge.reward;
+                    
+                    // Remove from completed challenges
+                    const index = userData.challenges.completed.findIndex(c => c.id === challengeId);
+                    if (index !== -1) {
+                        userData.challenges.completed.splice(index, 1);
+                    }
+                    
+                    // Find the card in the completed tab and remove it
+                    const completedCardInList = completedChallengesList.querySelector(`.challenge-card[data-id="${challengeId}"]`);
+                    if (completedCardInList) {
+                        completedCardInList.remove();
+                    }
+                    
+                    // Need to add the card back to current tab
+                    // This would need a function to recreate the current challenge view
+                    location.reload(); // For simplicity, just reload the page
+                    
+                    // Update progress
+                    updateProgress();
+                }
+                
+                // Save updated data to localStorage
+                saveUserData();
+            } else {
+                console.error("Challenge not found with ID:", challengeId);
+            }
+        }
+        
+        // Update progress indicators
+        function updateProgress() {
+            // Calculate progress percentage
+            const progressPercentage = (userData.completedChallenges / userData.totalChallenges) * 100;
+            
+            // Update progress bar and stats
+            overallProgressBar.style.width = `${progressPercentage}%`;
+            challengesCompletedEl.textContent = `${userData.completedChallenges} completed`;
+            challengesRemainingEl.textContent = `${userData.currentDay} of 41 days`;
+            progressPercentageEl.textContent = `${Math.round(progressPercentage)}%`;
+            
+            // Check if all day 5 challenges are completed
+            const day5Challenges = userData.challenges.day5;
+            const allDay5Completed = day5Challenges.every(c => c.completed);
+            
+            // Update unlock button state
+            if (allDay5Completed) {
+                unlockButton.disabled = false;
+                unlockButton.textContent = "Unlock Day 6";
+            }
+        }
+        
+        // Initialize the interface when the page loads
+        window.onload = initChallenges;
+    </script>
+</body>
+</html> 

@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PARA Evolution Twin Preview</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 414px;
+            margin: 0 auto;
+            border: 1px solid #ddd;
+            height: 100vh;
+            overflow-y: auto;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+        }
+        .twinContainer {
+            background-color: #4a1e9e;
+            padding: 20px;
+            color: white;
+            text-align: center;
+        }
+        .twinAvatarContainer {
+            position: relative;
+            display: inline-block;
+            margin-bottom: 10px;
+        }
+        .twinAvatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50px;
+            background-color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: 3px solid #7649cc;
+            margin: 0 auto;
+        }
+        .twinAvatarText {
+            font-size: 50px;
+        }
+        .levelBadge {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            background-color: #FFD700;
+            padding: 5px 10px;
+            border-radius: 15px;
+            border: 2px solid white;
+            font-weight: bold;
+            font-size: 12px;
+            color: #333;
+        }
+        .twinName {
+            font-size: 22px;
+            font-weight: bold;
+            margin: 0 0 5px 0;
+        }
+        .twinPersonality {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.8);
+            margin: 0 0 20px 0;
+        }
+        .evolutionProgress {
+            width: 100%;
+            margin-bottom: 20px;
+        }
+        .progressLabelContainer {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 5px;
+        }
+        .progressLabel {
+            font-size: 14px;
+            color: white;
+        }
+        .progressPoints {
+            font-size: 14px;
+            color: white;
+            font-weight: bold;
+        }
+        .progressBarBackground {
+            height: 8px;
+            background-color: rgba(255, 255, 255, 0.3);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        .progressBarFill {
+            height: 8px;
+            background-color: white;
+            border-radius: 4px;
+            width: 68%;
+        }
+        .personalizeButton {
+            background-color: rgba(255, 255, 255, 0.2);
+            padding: 10px 20px;
+            border-radius: 20px;
+            border: 1px solid white;
+            color: white;
+            font-weight: bold;
+            display: inline-block;
+            cursor: pointer;
+        }
+        .card {
+            background-color: white;
+            border-radius: 15px;
+            padding: 20px;
+            margin: 16px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .cardTitle {
+            font-size: 18px;
+            font-weight: bold;
+            margin: 0 0 15px 0;
+            color: #333;
+        }
+        .cardSubtitle {
+            font-size: 14px;
+            color: #666;
+            margin: 0 0 15px 0;
+        }
+        .statsGrid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+        .statItem {
+            width: 30%;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .statValue {
+            font-size: 22px;
+            font-weight: bold;
+            color: #4a1e9e;
+            margin: 0 0 5px 0;
+        }
+        .statLabel {
+            font-size: 12px;
+            color: #666;
+            margin: 0;
+        }
+        .insightItem {
+            display: flex;
+            margin-bottom: 15px;
+            background-color: #f0ebfa;
+            padding: 15px;
+            border-radius: 10px;
+            align-items: center;
+        }
+        .insightIcon {
+            font-size: 20px;
+            margin-right: 10px;
+        }
+        .insightText {
+            flex: 1;
+            font-size: 14px;
+            color: #333;
+            line-height: 20px;
+            margin: 0;
+        }
+        .badgesGrid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+        .badgeItem {
+            width: 48%;
+            background-color: #f0ebfa;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            text-align: center;
+            position: relative;
+        }
+        .lockedBadge {
+            background-color: #f0f0f0;
+        }
+        .badgeIcon {
+            font-size: 30px;
+            margin-bottom: 10px;
+            display: block;
+        }
+        .badgeName {
+            font-size: 14px;
+            font-weight: bold;
+            color: #333;
+            margin: 0 0 5px 0;
+        }
+        .badgeDescription {
+            font-size: 12px;
+            color: #666;
+            margin: 0;
+        }
+        .lockedBadgeOverlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(255, 255, 255, 0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 10px;
+        }
+        .lockedBadgeText {
+            font-size: 24px;
+        }
+        .settingsItem {
+            padding: 15px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        .settingsItemText {
+            font-size: 16px;
+            color: #333;
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Evolution Twin Avatar -->
+        <div class="twinContainer">
+            <div class="twinAvatarContainer">
+                <div class="twinAvatar">
+                    <span class="twinAvatarText">🤖</span>
+                </div>
+                <div class="levelBadge">Lv.8</div>
+            </div>
+            <h1 class="twinName">PARA</h1>
+            <p class="twinPersonality">Encouraging & Analytical</p>
+
+            <!-- Evolution Progress -->
+            <div class="evolutionProgress">
+                <div class="progressLabelContainer">
+                    <span class="progressLabel">Evolution Progress</span>
+                    <span class="progressPoints">342/500</span>
+                </div>
+                <div class="progressBarBackground">
+                    <div class="progressBarFill"></div>
+                </div>
+            </div>
+            
+            <div class="personalizeButton">Personalize Twin</div>
+        </div>
+
+        <!-- User Stats -->
+        <div class="card">
+            <h2 class="cardTitle">Your Stats</h2>
+            <div class="statsGrid">
+                <div class="statItem">
+                    <p class="statValue">34</p>
+                    <p class="statLabel">Days Active</p>
+                </div>
+                <div class="statItem">
+                    <p class="statValue">12</p>
+                    <p class="statLabel">Day Streak</p>
+                </div>
+                <div class="statItem">
+                    <p class="statValue">450</p>
+                    <p class="statLabel">PARA Coins</p>
+                </div>
+                <div class="statItem">
+                    <p class="statValue">287</p>
+                    <p class="statLabel">Meditation Min</p>
+                </div>
+                <div class="statItem">
+                    <p class="statValue">356</p>
+                    <p class="statLabel">Workout Min</p>
+                </div>
+                <div class="statItem">
+                    <p class="statValue">2/4</p>
+                    <p class="statLabel">Badges</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Twin Insights -->
+        <div class="card">
+            <h2 class="cardTitle">Twin Insights</h2>
+            <p class="cardSubtitle">Based on your habits and patterns</p>
+            
+            <div class="insightItem">
+                <span class="insightIcon">💡</span>
+                <p class="insightText">You tend to be more focused after morning meditation sessions.</p>
+            </div>
+            
+            <div class="insightItem">
+                <span class="insightIcon">💡</span>
+                <p class="insightText">Your mood improves significantly on days you exercise.</p>
+            </div>
+            
+            <div class="insightItem">
+                <span class="insightIcon">💡</span>
+                <p class="insightText">You experience better sleep quality after evening reflection practices.</p>
+            </div>
+        </div>
+
+        <!-- Badges -->
+        <div class="card">
+            <h2 class="cardTitle">Your Badges</h2>
+            <div class="badgesGrid">
+                <div class="badgeItem">
+                    <span class="badgeIcon">🌅</span>
+                    <h3 class="badgeName">Early Bird</h3>
+                    <p class="badgeDescription">Completed 5 morning meditations</p>
+                </div>
+                
+                <div class="badgeItem">
+                    <span class="badgeIcon">💪</span>
+                    <h3 class="badgeName">Fitness Enthusiast</h3>
+                    <p class="badgeDescription">Completed 10 workout sessions</p>
+                </div>
+                
+                <div class="badgeItem lockedBadge">
+                    <span class="badgeIcon">🧘‍♂️</span>
+                    <h3 class="badgeName">Mindfulness Master</h3>
+                    <p class="badgeDescription">Practiced meditation for 30 days</p>
+                    <div class="lockedBadgeOverlay">
+                        <span class="lockedBadgeText">🔒</span>
+                    </div>
+                </div>
+                
+                <div class="badgeItem lockedBadge">
+                    <span class="badgeIcon">😴</span>
+                    <h3 class="badgeName">Sleep Champion</h3>
+                    <p class="badgeDescription">Used sleep meditation for 15 nights</p>
+                    <div class="lockedBadgeOverlay">
+                        <span class="lockedBadgeText">🔒</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Settings -->
+        <div class="card">
+            <h2 class="cardTitle">Settings</h2>
+            <div class="settingsItem">
+                <p class="settingsItemText">Account Settings</p>
+            </div>
+            <div class="settingsItem">
+                <p class="settingsItemText">Notifications</p>
+            </div>
+            <div class="settingsItem">
+                <p class="settingsItemText">Privacy & Data</p>
+            </div>
+            <div class="settingsItem" style="border-bottom: none;">
+                <p class="settingsItemText">Help & Support</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html> 

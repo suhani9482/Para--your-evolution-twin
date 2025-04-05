@@ -1,0 +1,809 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PARA Evolution - Dashboard</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+        
+        .container {
+            max-width: 500px;
+            margin: 0 auto;
+            background-color: white;
+            min-height: 100vh;
+            box-shadow: 0 0 15px rgba(0,0,0,0.05);
+        }
+        
+        .header {
+            background-color: #4a1e9e;
+            padding: 20px;
+            color: white;
+            text-align: center;
+            position: relative;
+        }
+        
+        .header h1 {
+            margin: 0;
+            font-size: 22px;
+        }
+        
+        .header p {
+            margin: 5px 0 0;
+            font-size: 14px;
+            opacity: 0.9;
+        }
+        
+        .back-button {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+        }
+        
+        .user-stats {
+            display: flex;
+            justify-content: space-around;
+            padding: 15px;
+            background-color: #f9f5ff;
+            margin-bottom: 20px;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-value {
+            font-size: 24px;
+            font-weight: bold;
+            color: #4a1e9e;
+        }
+        
+        .stat-label {
+            font-size: 12px;
+            color: #666;
+        }
+        
+        .section {
+            padding: 15px 20px;
+            margin-bottom: 15px;
+        }
+        
+        .section-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin: 0 0 15px 0;
+            color: #4a1e9e;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .section-title .view-all {
+            font-size: 12px;
+            color: #4a1e9e;
+            text-decoration: none;
+        }
+        
+        .challenge-progress-container {
+            background-color: #eee;
+            height: 8px;
+            border-radius: 4px;
+            margin: 15px 0;
+            overflow: hidden;
+        }
+        
+        .challenge-progress-bar {
+            height: 100%;
+            background-color: #4a1e9e;
+            border-radius: 4px;
+            width: 0%; /* Will be updated with JS */
+            transition: width 0.5s ease;
+        }
+        
+        .challenge-stats {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            color: #666;
+        }
+        
+        .today-challenges {
+            margin-top: 20px;
+        }
+        
+        .challenge-card {
+            background-color: #f9f5ff;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        
+        .challenge-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        
+        .challenge-icon {
+            width: 40px;
+            height: 40px;
+            background-color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            margin-right: 15px;
+        }
+        
+        .challenge-info {
+            flex: 1;
+        }
+        
+        .challenge-title {
+            font-weight: bold;
+            margin: 0 0 5px 0;
+        }
+        
+        .challenge-description {
+            font-size: 13px;
+            color: #666;
+            margin: 0;
+        }
+        
+        .challenge-status {
+            padding: 4px 8px;
+            border-radius: 15px;
+            font-size: 11px;
+            font-weight: bold;
+            background-color: #eee;
+            color: #666;
+        }
+        
+        .status-incomplete {
+            background-color: #ffebeb;
+            color: #ff6b6b;
+        }
+        
+        .status-progress {
+            background-color: #fff5eb;
+            color: #ff9f43;
+        }
+        
+        .status-complete {
+            background-color: #ebffeb;
+            color: #28c76f;
+        }
+        
+        .coach-message-card {
+            background-color: #f0ebfa;
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 15px;
+            position: relative;
+        }
+        
+        .coach-message-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        .coach-avatar {
+            width: 36px;
+            height: 36px;
+            background-color: #4a1e9e;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            margin-right: 10px;
+        }
+        
+        .coach-info {
+            flex: 1;
+        }
+        
+        .coach-name {
+            font-weight: bold;
+            margin: 0;
+        }
+        
+        .message-time {
+            font-size: 11px;
+            color: #666;
+            margin: 0;
+        }
+        
+        .coach-message-content {
+            font-size: 14px;
+            line-height: 1.4;
+            margin: 0;
+        }
+        
+        .chat-button {
+            background-color: #4a1e9e;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: background-color 0.2s;
+        }
+        
+        .chat-button:hover {
+            background-color: #3b1880;
+        }
+        
+        /* Chat modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0,0,0,0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .modal.show {
+            display: flex;
+        }
+        
+        .modal-content {
+            background-color: white;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 400px;
+            max-height: 80vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        
+        .modal-header {
+            background-color: #4a1e9e;
+            color: white;
+            padding: 15px;
+            display: flex;
+            align-items: center;
+            position: relative;
+        }
+        
+        .modal-close {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: white;
+            font-size: 18px;
+            cursor: pointer;
+        }
+        
+        .modal-body {
+            flex: 1;
+            overflow-y: auto;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            max-height: 400px;
+        }
+        
+        .message {
+            max-width: 80%;
+            padding: 10px 15px;
+            border-radius: 18px;
+            margin-bottom: 10px;
+        }
+        
+        .coach-message {
+            background-color: #f0ebfa;
+            align-self: flex-start;
+            border-bottom-left-radius: 5px;
+        }
+        
+        .user-message {
+            background-color: #4a1e9e;
+            color: white;
+            align-self: flex-end;
+            border-bottom-right-radius: 5px;
+        }
+        
+        .message-input-container {
+            padding: 10px;
+            border-top: 1px solid #eee;
+            display: flex;
+        }
+        
+        .message-input {
+            flex: 1;
+            border: 1px solid #ddd;
+            border-radius: 20px;
+            padding: 8px 15px;
+            font-size: 14px;
+        }
+        
+        .send-button {
+            background-color: #4a1e9e;
+            color: white;
+            border: none;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            margin-left: 10px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+        
+        /* Completed challenge modal */
+        .challenge-complete-modal {
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .completion-icon {
+            font-size: 60px;
+            margin-bottom: 15px;
+        }
+        
+        .completion-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #4a1e9e;
+        }
+        
+        .reward-container {
+            background-color: #f9f5ff;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 15px 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .reward-coin {
+            font-size: 30px;
+            margin-right: 10px;
+        }
+        
+        .reward-value {
+            font-size: 24px;
+            font-weight: bold;
+            color: #4a1e9e;
+        }
+        
+        .reward-label {
+            font-size: 12px;
+            color: #666;
+        }
+        
+        .completion-actions {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        
+        .action-button {
+            background-color: #4a1e9e;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            margin: 0 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <button class="back-button">←</button>
+            <h1>Dashboard</h1>
+            <p>Your Personal Evolution Journey</p>
+        </div>
+        
+        <div class="user-stats">
+            <div class="stat-item">
+                <div class="stat-value" id="challengesCompleted">12</div>
+                <div class="stat-label">Challenges</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value" id="currentStreak">5</div>
+                <div class="stat-label">Day Streak</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value" id="paraCoins">230</div>
+                <div class="stat-label">PARA Coins</div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <div class="section-title">
+                <span>41-Day Evolution Challenge</span>
+                <a href="challenges-interface.html" class="view-all">View All</a>
+            </div>
+            
+            <div class="challenge-progress-container">
+                <div class="challenge-progress-bar" id="challengeProgressBar"></div>
+            </div>
+            
+            <div class="challenge-stats">
+                <span id="currentDay">Day 12 of 41</span>
+                <span id="progressPercentage">29% Complete</span>
+            </div>
+            
+            <div class="today-challenges" id="todayChallenges">
+                <!-- Challenges will be dynamically populated from localStorage -->
+            </div>
+        </div>
+        
+        <div class="section">
+            <div class="section-title">
+                <span>Coach Messages</span>
+                <a href="#" id="viewAllMessages" class="view-all">View All</a>
+            </div>
+            
+            <div class="coach-message-card">
+                <div class="coach-message-header">
+                    <div class="coach-avatar">🤖</div>
+                    <div class="coach-info">
+                        <p class="coach-name">PARA Coach</p>
+                        <p class="message-time">Today, 9:30 AM</p>
+                    </div>
+                </div>
+                <p class="coach-message-content">Good morning! I've noticed your consistency with mindfulness exercises. Keep it up! Today's challenges focus on balancing your mental and physical energy. How are you feeling about them?</p>
+                <button class="chat-button" id="openChatButton">Chat with Coach</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Chat Modal -->
+    <div class="modal" id="chatModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="coach-avatar" style="margin-right: 10px;">🤖</div>
+                <div>
+                    <div style="font-weight: bold;">PARA Coach</div>
+                    <div style="font-size: 12px; opacity: 0.8;">Your Evolution Guide</div>
+                </div>
+                <button class="modal-close" id="closeChatButton">×</button>
+            </div>
+            <div class="modal-body" id="chatMessages">
+                <div class="message coach-message">Hello! I'm your PARA Evolution Coach. How can I help you today with your personal growth journey?</div>
+                <div class="message coach-message">I noticed you're on day 12 of your 41-day challenge. How are you feeling about your progress so far?</div>
+            </div>
+            <div class="message-input-container">
+                <input type="text" class="message-input" id="messageInput" placeholder="Type your message...">
+                <button class="send-button" id="sendMessageButton">→</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Challenge Complete Modal -->
+    <div class="modal" id="challengeCompleteModal">
+        <div class="modal-content challenge-complete-modal">
+            <div class="completion-icon">🎉</div>
+            <div class="completion-title">Challenge Completed!</div>
+            <p>Great job completing your challenge. You're making progress on your evolution journey!</p>
+            
+            <div class="reward-container">
+                <div class="reward-coin">🪙</div>
+                <div>
+                    <div class="reward-value">+25</div>
+                    <div class="reward-label">PARA Coins</div>
+                </div>
+            </div>
+            
+            <div class="completion-actions">
+                <button class="action-button" id="nextChallengeButton">Next Challenge</button>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Load saved challenge data from localStorage
+        function loadUserData() {
+            const savedData = localStorage.getItem('paraEvolutionChallenges');
+            if (savedData) {
+                try {
+                    return JSON.parse(savedData);
+                } catch (e) {
+                    console.error("Error loading user data:", e);
+                    return null;
+                }
+            }
+            return null;
+        }
+        
+        // Initialize the dashboard with user data
+        function initDashboard() {
+            // Load challenge data
+            const userData = loadUserData();
+            
+            if (userData) {
+                // Update user stats
+                document.getElementById('challengesCompleted').textContent = userData.completedChallenges;
+                document.getElementById('currentStreak').textContent = userData.currentStreak;
+                document.getElementById('paraCoins').textContent = userData.paraCoins;
+                
+                // Update challenge progress
+                const progressPercentage = (userData.completedChallenges / userData.totalChallenges) * 100;
+                document.getElementById('challengeProgressBar').style.width = `${progressPercentage}%`;
+                document.getElementById('currentDay').textContent = `Day ${userData.currentDay} of ${userData.totalDays}`;
+                document.getElementById('progressPercentage').textContent = `${Math.round(progressPercentage)}% Complete`;
+                
+                // Create challenge cards for today's challenges
+                const todayChallengesContainer = document.getElementById('todayChallenges');
+                todayChallengesContainer.innerHTML = ''; // Clear existing challenges
+                
+                // Use day5 challenges from localStorage
+                if (userData.challenges && userData.challenges.day5) {
+                    userData.challenges.day5.forEach(challenge => {
+                        const statusClass = challenge.completed ? 'status-complete' : 'status-incomplete';
+                        const statusText = challenge.completed ? 'Completed' : 'Incomplete';
+                        
+                        const challengeCard = document.createElement('div');
+                        challengeCard.className = 'challenge-card';
+                        challengeCard.dataset.id = challenge.id;
+                        challengeCard.dataset.category = challenge.category;
+                        
+                        challengeCard.innerHTML = `
+                            <div class="challenge-icon">${getCategoryIcon(challenge.category)}</div>
+                            <div class="challenge-info">
+                                <div class="challenge-title">${challenge.title}</div>
+                                <div class="challenge-description">${challenge.description}</div>
+                            </div>
+                            <div class="challenge-status ${statusClass}">${statusText}</div>
+                        `;
+                        
+                        // Add click event to each card
+                        challengeCard.addEventListener('click', handleChallengeClick);
+                        
+                        todayChallengesContainer.appendChild(challengeCard);
+                    });
+                }
+            }
+            
+            // Set up event listeners for other elements
+            setupEventListeners();
+        }
+        
+        // Get icon for challenge category
+        function getCategoryIcon(category) {
+            const icons = {
+                'physical': '💪',
+                'mental': '🧠',
+                'emotional': '❤️',
+                'spiritual': '✨'
+            };
+            return icons[category] || '✅';
+        }
+        
+        // Set up event listeners
+        function setupEventListeners() {
+            // Challenge card click handler
+            const challengeCards = document.querySelectorAll('.challenge-card');
+            challengeCards.forEach(card => {
+                card.addEventListener('click', handleChallengeClick);
+            });
+            
+            // Chat modal handlers
+            const openChatButton = document.getElementById('openChatButton');
+            const closeChatButton = document.getElementById('closeChatButton');
+            const chatModal = document.getElementById('chatModal');
+            const messageInput = document.getElementById('messageInput');
+            const sendMessageButton = document.getElementById('sendMessageButton');
+            const chatMessages = document.getElementById('chatMessages');
+            const challengeCompleteModal = document.getElementById('challengeCompleteModal');
+            const nextChallengeButton = document.getElementById('nextChallengeButton');
+            
+            openChatButton.addEventListener('click', () => {
+                chatModal.classList.add('show');
+            });
+            
+            closeChatButton.addEventListener('click', () => {
+                chatModal.classList.remove('show');
+            });
+            
+            // Send message handler
+            sendMessageButton.addEventListener('click', sendMessage);
+            messageInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    sendMessage();
+                }
+            });
+            
+            // Next challenge button
+            nextChallengeButton.addEventListener('click', () => {
+                challengeCompleteModal.classList.remove('show');
+            });
+            
+            // Back button
+            document.querySelector('.back-button').addEventListener('click', () => {
+                window.location.href = 'index.html';
+            });
+        }
+        
+        // Handle challenge card click
+        function handleChallengeClick(event) {
+            const card = event.currentTarget;
+            const challengeId = parseInt(card.dataset.id);
+            
+            // Load latest data
+            const userData = loadUserData();
+            if (!userData || !userData.challenges || !userData.challenges.day5) {
+                console.error("Challenge data not found in localStorage");
+                return;
+            }
+            
+            // Find the challenge by ID
+            const challenge = userData.challenges.day5.find(c => c.id === challengeId);
+            
+            if (challenge) {
+                // Toggle completion status
+                challenge.completed = !challenge.completed;
+                
+                // Update UI
+                const statusEl = card.querySelector('.challenge-status');
+                if (challenge.completed) {
+                    // Mark as completed
+                    statusEl.textContent = 'Completed';
+                    statusEl.className = 'challenge-status status-complete';
+                    
+                    // Update stats
+                    userData.completedChallenges++;
+                    userData.paraCoins += challenge.reward;
+                    
+                    // Add to completed challenges if not already there
+                    const alreadyInCompleted = userData.challenges.completed.some(c => c.id === challengeId);
+                    if (!alreadyInCompleted) {
+                        userData.challenges.completed.push({...challenge, day: 5});
+                    }
+                    
+                    // Show completion modal
+                    document.querySelector('.reward-value').textContent = `+${challenge.reward}`;
+                    challengeCompleteModal.classList.add('show');
+                } else {
+                    // Mark as incomplete
+                    statusEl.textContent = 'Incomplete';
+                    statusEl.className = 'challenge-status status-incomplete';
+                    
+                    // Update stats
+                    userData.completedChallenges--;
+                    userData.paraCoins -= challenge.reward;
+                    
+                    // Remove from completed challenges
+                    const completedIndex = userData.challenges.completed.findIndex(c => c.id === challengeId);
+                    if (completedIndex !== -1) {
+                        userData.challenges.completed.splice(completedIndex, 1);
+                    }
+                }
+                
+                // Update UI stats
+                document.getElementById('challengesCompleted').textContent = userData.completedChallenges;
+                document.getElementById('paraCoins').textContent = userData.paraCoins;
+                
+                // Recalculate progress
+                const progressPercentage = (userData.completedChallenges / userData.totalChallenges) * 100;
+                document.getElementById('challengeProgressBar').style.width = `${progressPercentage}%`;
+                document.getElementById('progressPercentage').textContent = `${Math.round(progressPercentage)}% Complete`;
+                
+                // Save changes to localStorage
+                saveUserData(userData);
+            }
+        }
+        
+        // Save user data to localStorage
+        function saveUserData(userData) {
+            try {
+                localStorage.setItem('paraEvolutionChallenges', JSON.stringify(userData));
+                console.log("Saved user data to localStorage:", userData);
+            } catch (e) {
+                console.error("Error saving user data:", e);
+            }
+        }
+        
+        // Send a message in the chat
+        function sendMessage() {
+            const text = messageInput.value.trim();
+            if (text !== '') {
+                // Add user message to UI
+                addUserMessage(text);
+                
+                // Add to data (would save to database in real app)
+                userData.messages.push({ sender: 'user', text, time: new Date() });
+                
+                // Clear input
+                messageInput.value = '';
+                
+                // Generate coach response
+                setTimeout(() => {
+                    const response = generateCoachResponse(text);
+                    addCoachMessage(response);
+                    userData.messages.push({ sender: 'coach', text: response, time: new Date() });
+                }, 1000);
+            }
+        }
+        
+        // Add a user message to the chat UI
+        function addUserMessage(text) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = 'message user-message';
+            messageDiv.textContent = text;
+            chatMessages.appendChild(messageDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+        
+        // Add a coach message to the chat UI
+        function addCoachMessage(text) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = 'message coach-message';
+            messageDiv.textContent = text;
+            chatMessages.appendChild(messageDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+        
+        // Generate a coach response based on user message
+        function generateCoachResponse(userMessage) {
+            userMessage = userMessage.toLowerCase();
+            
+            // Simple response logic based on keywords
+            if (userMessage.includes('help') || userMessage.includes('how')) {
+                return "I'm here to guide you on your evolution journey. What specific area would you like help with? Physical, mental, emotional, or spiritual growth?";
+            } else if (userMessage.includes('difficult') || userMessage.includes('hard') || userMessage.includes('struggle')) {
+                return "It's completely normal to face challenges. Remember, growth happens outside your comfort zone. What specific aspect are you finding difficult?";
+            } else if (userMessage.includes('progress') || userMessage.includes('doing')) {
+                return `You're making great progress! You've completed ${userData.completedChallenges} challenges and maintained a ${userData.currentStreak}-day streak. Keep up the amazing work!`;
+            } else if (userMessage.includes('motivation') || userMessage.includes('tired')) {
+                return "Everyone experiences fluctuations in motivation. Try reconnecting with your 'why' - the deeper reason you started this journey. Would you like some specific motivation techniques?";
+            } else if (userMessage.includes('thank')) {
+                return "You're very welcome! I'm always here to support your growth journey.";
+            } else {
+                const responses = [
+                    "That's an interesting perspective. How does this connect to your evolution goals?",
+                    "I appreciate you sharing that. Would you like some guidance on how to integrate this into your daily practice?",
+                    "Thank you for expressing that. Your awareness is a powerful tool for growth. Have you noticed any patterns related to this?",
+                    "I hear you. Based on your 41-day journey so far, I think you might benefit from exploring this further. Would you like some specific exercises?"
+                ];
+                return responses[Math.floor(Math.random() * responses.length)];
+            }
+        }
+        
+        // Initialize when the page loads
+        window.onload = initDashboard;
+    </script>
+</body>
+</html> 

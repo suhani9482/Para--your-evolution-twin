@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PARA Dashboard Preview</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 414px;
+            margin: 0 auto;
+            border: 1px solid #ddd;
+            height: 100vh;
+            overflow-y: auto;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+        }
+        .header {
+            padding: 16px;
+            display: flex;
+            align-items: center;
+        }
+        .avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 30px;
+            background-color: #4a1e9e;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-size: 30px;
+            margin-right: 15px;
+        }
+        .welcomeText {
+            flex: 1;
+        }
+        .welcomeTitle {
+            font-size: 22px;
+            font-weight: bold;
+            color: #333;
+            margin: 0;
+        }
+        .welcomeSubtitle {
+            font-size: 14px;
+            color: #666;
+            margin: 4px 0 0 0;
+        }
+        .card {
+            background-color: white;
+            border-radius: 15px;
+            padding: 20px;
+            margin: 0 16px 16px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .cardTitle {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: #333;
+        }
+        .progressCircle {
+            margin: 10px auto;
+            width: 100px;
+            height: 100px;
+            border-radius: 50px;
+            border: 8px solid #4a1e9e;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+        .progressDays {
+            font-size: 32px;
+            font-weight: bold;
+            color: #4a1e9e;
+            margin: 0;
+        }
+        .progressTotal {
+            font-size: 16px;
+            color: #666;
+            margin: 0;
+        }
+        .progressText {
+            text-align: center;
+            font-size: 16px;
+            color: #333;
+            margin-top: 5px;
+        }
+        .coinHeader {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        .coinBadge {
+            background-color: #FFD700;
+            border-radius: 15px;
+            padding: 5px 10px;
+            font-weight: bold;
+        }
+        .challengeTitle {
+            font-size: 16px;
+            font-weight: bold;
+            color: #4a1e9e;
+            margin-bottom: 5px;
+        }
+        .cardDescription {
+            font-size: 14px;
+            color: #666;
+            line-height: 20px;
+            margin-bottom: 15px;
+        }
+        .button {
+            background-color: #4a1e9e;
+            border-radius: 8px;
+            padding: 12px;
+            color: white;
+            font-weight: bold;
+            text-align: center;
+            margin-top: 15px;
+            cursor: pointer;
+        }
+        .outlineButton {
+            border: 1px solid #4a1e9e;
+            background-color: transparent;
+            border-radius: 8px;
+            padding: 12px;
+            color: #4a1e9e;
+            font-weight: bold;
+            text-align: center;
+            margin-top: 15px;
+            cursor: pointer;
+        }
+        .progressContainer {
+            margin-bottom: 15px;
+        }
+        .progressLabelContainer {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 5px;
+        }
+        .progressLabel {
+            font-size: 14px;
+            color: #333;
+        }
+        .progressPercentage {
+            font-size: 14px;
+            color: #4a1e9e;
+            font-weight: bold;
+        }
+        .progressBarBackground {
+            height: 8px;
+            background-color: #e0e0e0;
+            border-radius: 4px;
+        }
+        .progressBarFill {
+            height: 8px;
+            background-color: #4a1e9e;
+            border-radius: 4px;
+        }
+        .coachMessage {
+            background-color: #f0ebfa;
+            border-radius: 8px;
+            padding: 15px;
+            border-left: 4px solid #4a1e9e;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Avatar and Welcome Section -->
+        <div class="header">
+            <div class="avatar">👤</div>
+            <div class="welcomeText">
+                <h1 class="welcomeTitle">Welcome back!</h1>
+                <p class="welcomeSubtitle">Your evolution twin is excited to see you.</p>
+            </div>
+        </div>
+
+        <!-- Program Progress Card -->
+        <div class="card">
+            <div class="cardTitle">41-Day Challenge Progress</div>
+            <div class="progressCircle">
+                <p class="progressDays">12</p>
+                <p class="progressTotal">/41</p>
+            </div>
+            <p class="progressText">You're 29% through your journey!</p>
+        </div>
+
+        <!-- PARA Coins -->
+        <div class="card">
+            <div class="coinHeader">
+                <div class="cardTitle">PARA Coins</div>
+                <div class="coinBadge">230</div>
+            </div>
+            <p class="cardDescription">
+                Earn more coins by completing daily challenges and quests
+            </p>
+        </div>
+
+        <!-- Daily Challenge -->
+        <div class="card">
+            <div class="cardTitle">Today's Challenge</div>
+            <div class="challengeTitle">Mindful Breathing</div>
+            <p class="cardDescription">Practice deep breathing for 5 minutes to reduce stress and increase focus.</p>
+            <div class="button">Complete Challenge</div>
+        </div>
+
+        <!-- Evolution Progress -->
+        <div class="card">
+            <div class="cardTitle">Your Evolution Progress</div>
+            
+            <div class="progressContainer">
+                <div class="progressLabelContainer">
+                    <div class="progressLabel">Physical</div>
+                    <div class="progressPercentage">65%</div>
+                </div>
+                <div class="progressBarBackground">
+                    <div class="progressBarFill" style="width: 65%;"></div>
+                </div>
+            </div>
+            
+            <div class="progressContainer">
+                <div class="progressLabelContainer">
+                    <div class="progressLabel">Mental</div>
+                    <div class="progressPercentage">42%</div>
+                </div>
+                <div class="progressBarBackground">
+                    <div class="progressBarFill" style="width: 42%;"></div>
+                </div>
+            </div>
+            
+            <div class="progressContainer">
+                <div class="progressLabelContainer">
+                    <div class="progressLabel">Emotional</div>
+                    <div class="progressPercentage">78%</div>
+                </div>
+                <div class="progressBarBackground">
+                    <div class="progressBarFill" style="width: 78%;"></div>
+                </div>
+            </div>
+            
+            <div class="progressContainer">
+                <div class="progressLabelContainer">
+                    <div class="progressLabel">Spiritual</div>
+                    <div class="progressPercentage">30%</div>
+                </div>
+                <div class="progressBarBackground">
+                    <div class="progressBarFill" style="width: 30%;"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Coach Message -->
+        <div class="card">
+            <div class="cardTitle">Message from Your Coach</div>
+            <div class="coachMessage">
+                <p class="cardDescription">
+                    "I noticed you've been consistent with your meditation practice. 
+                    Great job! Today, try to focus on your breathing and notice how 
+                    it affects your emotional state."
+                </p>
+            </div>
+            <div class="outlineButton">Chat with Coach</div>
+        </div>
+    </div>
+</body>
+</html> 

@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PARA Audio Hub Preview</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 414px;
+            margin: 0 auto;
+            border: 1px solid #ddd;
+            height: 100vh;
+            overflow-y: auto;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+        }
+        .header {
+            background-color: #4a1e9e;
+            padding: 20px;
+            color: white;
+        }
+        .headerTitle {
+            font-size: 24px;
+            font-weight: bold;
+            margin: 0;
+        }
+        .headerSubtitle {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.8);
+            margin: 5px 0 0 0;
+        }
+        .categoriesContainer {
+            background-color: white;
+            padding: 0 10px;
+            border-bottom: 1px solid #eee;
+            white-space: nowrap;
+            overflow-x: auto;
+            display: flex;
+        }
+        .categoryTab {
+            display: inline-block;
+            padding: 15px 20px;
+            margin: 0 5px;
+            position: relative;
+        }
+        .selectedCategoryTab {
+            border-bottom: 3px solid #4a1e9e;
+        }
+        .categoryText {
+            font-size: 16px;
+            color: #666;
+        }
+        .selectedCategoryText {
+            color: #4a1e9e;
+            font-weight: bold;
+        }
+        .audioList {
+            padding: 16px;
+        }
+        .audioCard {
+            background-color: white;
+            border-radius: 12px;
+            margin-bottom: 16px;
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        .audioImageContainer {
+            position: relative;
+        }
+        .audioImage {
+            height: 120px;
+            background-color: #4a1e9e;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .audioImageText {
+            font-size: 40px;
+            color: white;
+        }
+        .popularBadge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: #ff6b6b;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 12px;
+            color: white;
+            font-weight: bold;
+        }
+        .audioContent {
+            padding: 16px;
+        }
+        .audioTitle {
+            font-size: 18px;
+            font-weight: bold;
+            color: #333;
+            margin: 0 0 5px 0;
+        }
+        .audioDuration, .audioInstructor {
+            font-size: 14px;
+            margin: 0 0 5px 0;
+        }
+        .audioDuration {
+            color: #666;
+        }
+        .audioInstructor {
+            color: #4a1e9e;
+            margin-bottom: 8px;
+        }
+        .audioDescription {
+            font-size: 14px;
+            color: #666;
+            margin: 0 0 15px 0;
+            line-height: 20px;
+        }
+        .audioFooter {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .levelBadge {
+            background-color: #f0ebfa;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 12px;
+            color: #4a1e9e;
+            font-weight: bold;
+        }
+        .playButton {
+            background-color: #4a1e9e;
+            padding: 8px 15px;
+            border-radius: 20px;
+            color: white;
+            font-weight: bold;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1 class="headerTitle">Audio Hub</h1>
+            <p class="headerSubtitle">Find peace, focus, and motivation</p>
+        </div>
+
+        <div class="categoriesContainer">
+            <div class="categoryTab selectedCategoryTab">
+                <span class="categoryText selectedCategoryText">Meditation</span>
+            </div>
+            <div class="categoryTab">
+                <span class="categoryText">Workouts</span>
+            </div>
+            <div class="categoryTab">
+                <span class="categoryText">Focus</span>
+            </div>
+            <div class="categoryTab">
+                <span class="categoryText">Sleep</span>
+            </div>
+            <div class="categoryTab">
+                <span class="categoryText">Binaural</span>
+            </div>
+        </div>
+
+        <div class="audioList">
+            <!-- Audio Item 1 -->
+            <div class="audioCard">
+                <div class="audioImageContainer">
+                    <div class="audioImage">
+                        <span class="audioImageText">🎵</span>
+                    </div>
+                    <div class="popularBadge">Popular</div>
+                </div>
+                <div class="audioContent">
+                    <h2 class="audioTitle">Morning Mindfulness</h2>
+                    <p class="audioDuration">10 min</p>
+                    <p class="audioInstructor">By Sarah Johnson</p>
+                    <p class="audioDescription">Start your day with clarity and purpose</p>
+                    <div class="audioFooter">
+                        <div class="levelBadge">Beginner</div>
+                        <div class="playButton">▶ Play</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Audio Item 2 -->
+            <div class="audioCard">
+                <div class="audioImageContainer">
+                    <div class="audioImage">
+                        <span class="audioImageText">🎵</span>
+                    </div>
+                    <div class="popularBadge">Popular</div>
+                </div>
+                <div class="audioContent">
+                    <h2 class="audioTitle">Stress Relief</h2>
+                    <p class="audioDuration">15 min</p>
+                    <p class="audioInstructor">By Michael Chen</p>
+                    <p class="audioDescription">Release tension and find calm</p>
+                    <div class="audioFooter">
+                        <div class="levelBadge">Intermediate</div>
+                        <div class="playButton">▶ Play</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Audio Item 3 -->
+            <div class="audioCard">
+                <div class="audioImageContainer">
+                    <div class="audioImage">
+                        <span class="audioImageText">🎵</span>
+                    </div>
+                </div>
+                <div class="audioContent">
+                    <h2 class="audioTitle">Self-Compassion</h2>
+                    <p class="audioDuration">12 min</p>
+                    <p class="audioInstructor">By Emma Wilson</p>
+                    <p class="audioDescription">Practice kindness toward yourself</p>
+                    <div class="audioFooter">
+                        <div class="levelBadge">All Levels</div>
+                        <div class="playButton">▶ Play</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html> 
